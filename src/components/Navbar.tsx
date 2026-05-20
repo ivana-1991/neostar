@@ -87,29 +87,32 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* Mobile: AI search bar – always visible */}
+      <div className="lg:hidden px-3 pb-3">
+        <div
+          className="flex items-center gap-2 px-4 py-2.5 rounded-lg border text-[13px] text-[#333]"
+          style={{ backgroundColor: "#ECFCFF", borderColor: "#00CCFF" }}
+        >
+          <svg className="w-5 h-5 flex-none text-[#00CCFF]" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/>
+          </svg>
+          <input
+            type="text"
+            placeholder="Pitaj me ..."
+            className="flex-1 bg-transparent outline-none text-[13px] text-[#333] placeholder-[#333]"
+          />
+        </div>
+      </div>
+
       {/* Mobile menu dropdown */}
       {open && (
-        <div className="lg:hidden bg-white border-t border-gray-100 px-4 py-5 flex flex-col gap-4">
-          {/* AI search bar */}
-          <div
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border text-[13px] text-[#333] cursor-text"
-            style={{ backgroundColor: "#ECFCFF", borderColor: "#00CCFF" }}
-          >
-            <svg className="w-5 h-5 flex-none text-[#00CCFF]" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/>
-            </svg>
-            <span>Pitaj me ...</span>
-          </div>
-
-          {/* Nav links */}
+        <div className="lg:hidden bg-white border-t border-gray-100 px-4 py-4 flex flex-col gap-4">
           <a href="#" onClick={() => setOpen(false)} className="text-base font-medium text-black py-2 border-b border-gray-100">
             Vozila
           </a>
           <a href="#" onClick={() => setOpen(false)} className="text-base font-medium text-black py-2 border-b border-gray-100">
             Servis i gume
           </a>
-
-          {/* Bottom row: Prodaj + HR */}
           <div className="flex items-center justify-between pt-1">
             <a href="#" className="border border-black rounded-lg px-5 py-2 text-sm font-medium text-black">
               Prodaj
