@@ -21,14 +21,14 @@ export default function Hero() {
     <section className="bg-white pt-[72px]">
       <div className="max-w-[1320px] mx-auto px-3">
 
-        {/* Top: heading left + illustration right */}
+        {/* Top: heading left + illustration right (desktop) / image top + heading bottom (mobile) */}
         <div className="grid md:grid-cols-2 items-center pt-8 pb-4 gap-4">
 
-          {/* Left */}
-          <div className="flex flex-col items-start gap-8">
+          {/* Heading + CTA — below image on mobile, left on desktop */}
+          <div className="order-2 md:order-1 flex flex-col items-center md:items-start gap-8">
             <h1
-              className="font-bold text-black"
-              style={{ fontSize: "clamp(36px, 4vw, 56px)", lineHeight: "1.2" }}
+              className="font-bold text-black text-center md:text-left w-full"
+              style={{ fontSize: "clamp(28px, 4vw, 56px)", lineHeight: "1.2" }}
             >
               Auto u prvom planu.<br />
               Ti u centru pažnje.
@@ -49,8 +49,8 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* Right – showroom illustration */}
-          <div className="flex justify-center md:justify-end">
+          {/* Showroom illustration — top on mobile, right on desktop */}
+          <div className="order-1 md:order-2 flex justify-center md:justify-end">
             <img
               src={img("/images/hero-showroom.png")}
               alt="Neostar showroom"

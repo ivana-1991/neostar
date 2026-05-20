@@ -8,12 +8,25 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
-      <div className="max-w-[1320px] mx-auto px-3 py-4 flex items-center justify-between">
+      <div className="max-w-[1320px] mx-auto px-6 lg:px-3 py-4 flex items-center gap-3">
 
         {/* Logo */}
         <a href="/" className="flex-none">
           <img src={img("/images/neostar-logo.svg")} alt="NEOSTAR" className="h-5 w-auto" />
         </a>
+
+        {/* Mobile only: AI search bar inline */}
+        <div className="lg:hidden flex-1 min-w-0">
+          <div
+            className="flex items-center gap-2 px-4 py-1.5 rounded-lg border"
+            style={{ backgroundColor: "#ECFCFF", borderColor: "#00CCFF" }}
+          >
+            <svg className="w-5 h-5 flex-none text-[#00CCFF]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/>
+            </svg>
+            <span className="text-[13px] text-[#444] whitespace-nowrap">Pitaj me ...</span>
+          </div>
+        </div>
 
         {/* Desktop: center nav + right actions */}
         <div className="hidden lg:flex flex-1 items-center min-w-0">
@@ -68,40 +81,23 @@ export default function Navbar() {
           </svg>
         </div>
 
-        {/* Mobile: user + hamburger */}
-        <div className="lg:hidden flex items-center gap-2">
-          <svg className="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-          <button onClick={() => setOpen(!open)} className="p-1" aria-label="Menu">
-            {open ? (
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile: AI search bar – always visible */}
-      <div className="lg:hidden px-3 pb-3">
-        <div
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg border text-[13px] text-[#333]"
-          style={{ backgroundColor: "#ECFCFF", borderColor: "#00CCFF" }}
+        {/* Mobile: hamburger with #ECFCFF background */}
+        <button
+          onClick={() => setOpen(!open)}
+          className="lg:hidden flex-none p-1 rounded-[4px]"
+          style={{ backgroundColor: "#ECFCFF" }}
+          aria-label="Menu"
         >
-          <svg className="w-5 h-5 flex-none text-[#00CCFF]" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/>
-          </svg>
-          <input
-            type="text"
-            placeholder="Pitaj me ..."
-            className="flex-1 bg-transparent outline-none text-[13px] text-[#333] placeholder-[#333]"
-          />
-        </div>
+          {open ? (
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          )}
+        </button>
       </div>
 
       {/* Mobile menu dropdown */}
