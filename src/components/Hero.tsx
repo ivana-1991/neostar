@@ -1,87 +1,111 @@
 const carTypes = [
-  { label: "Gradski", icon: "🚗" },
-  { label: "Monovolumen", icon: "🚐" },
-  { label: "SUV", icon: "🚙" },
-  { label: "Kombi", icon: "🚌" },
-  { label: "Obiteljski", icon: "🚘" },
-  { label: "Novo", icon: "✨" },
-  { label: "Električni", icon: "⚡" },
-  { label: "Kabriolet", icon: "🏎" },
-  { label: "Premium", icon: "💎" },
-  { label: "Putovanje", icon: "✈️" },
-  { label: "Automatik", icon: "⚙️" },
+  { label: "Gradski", icon: "/images/icon-gradski.png" },
+  { label: "Monovolumen", icon: "/images/icon-monovolumen.png" },
+  { label: "SUV", icon: "/images/icon-suv.png" },
+  { label: "Kombi", icon: "/images/icon-kombi.png" },
+  { label: "Obiteljski", icon: "/images/icon-obiteljski.png" },
+  { label: "Novo", icon: "/images/icon-novo.png" },
+  { label: "Električni", icon: "/images/icon-elektricni.png" },
+  { label: "Kabriolet", icon: "/images/icon-kabriolet.png" },
+  { label: "Premium", icon: "/images/icon-premium.png" },
+  { label: "Putovanje", icon: "/images/icon-putovanje.png" },
+  { label: "Automatik", icon: "/images/icon-automatik.png" },
 ];
+
+const filters = ["Marka", "Model", "Godište", "Kilometraža", "Cijena"];
 
 export default function Hero() {
   return (
     <section className="bg-white pt-[72px]">
       <div className="max-w-[1320px] mx-auto px-3">
-        <div className="grid lg:grid-cols-[1fr_auto] gap-0 items-start">
 
-          {/* Left – content */}
-          <div className="py-12 lg:py-16 pr-8">
-            <h1 className="text-[clamp(36px,4vw,56px)] font-bold text-black leading-[1.1] mb-8">
+        {/* Top: heading left + illustration right */}
+        <div className="grid md:grid-cols-2 items-center pt-8 pb-4 gap-4">
+
+          {/* Left */}
+          <div className="flex flex-col items-start gap-8">
+            <h1
+              className="font-bold text-black"
+              style={{ fontSize: "clamp(36px, 4vw, 56px)", lineHeight: "1.2" }}
+            >
               Auto u prvom planu.<br />
               Ti u centru pažnje.
             </h1>
 
-            {/* CTA button */}
+            {/* Gradient CTA */}
             <a
               href="#"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm mb-10"
-              style={{ backgroundColor: "#80CEAA" }}
+              className="inline-flex items-center gap-2.5 px-4 py-3 rounded-lg font-bold text-sm text-white"
+              style={{
+                background: "linear-gradient(to right, #00CCFF 4.97%, #80CEAA 94.75%)",
+              }}
             >
               Pronađi svoj auto
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </a>
+          </div>
 
-            {/* Search filters */}
-            <div className="flex items-center gap-2 flex-wrap lg:flex-nowrap border border-gray-200 rounded-xl p-3 shadow-sm bg-white mb-8">
-              {["Marka", "Model", "Godište", "Kilometraža", "Cijena"].map((label) => (
-                <div key={label} className="relative flex-1 min-w-[90px]">
-                  <select className="w-full appearance-none bg-transparent text-sm text-gray-700 pr-6 py-1 border-r border-gray-200 last:border-r-0 focus:outline-none cursor-pointer">
-                    <option>{label}</option>
-                  </select>
-                  <svg className="absolute right-1 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          {/* Right – showroom illustration */}
+          <div className="flex justify-center md:justify-end">
+            <img
+              src="/images/hero-showroom.png"
+              alt="Neostar showroom"
+              className="w-full max-w-[552px] object-contain"
+            />
+          </div>
+        </div>
+
+        {/* Search bar */}
+        <div
+          className="rounded-lg p-3 mb-8"
+          style={{ boxShadow: "0px 0px 11px rgba(0,0,0,0.1)" }}
+        >
+          <div className="flex flex-wrap items-center gap-0">
+            {filters.map((f) => (
+              <div key={f} className="flex-1 min-w-[110px] px-3">
+                <div
+                  className="flex items-center justify-between px-[22px] py-[15px] rounded-[5px] cursor-pointer"
+                  style={{ backgroundColor: "#ECFCFF" }}
+                >
+                  <span className="text-sm text-[#222]">{f}</span>
+                  <svg className="w-4 h-4 text-[#222] flex-none" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6l4 4 4-4" />
                   </svg>
                 </div>
-              ))}
-              <button className="flex-none px-4 py-2 bg-black text-white text-xs font-semibold rounded-lg whitespace-nowrap hover:bg-gray-800 transition-colors">
+              </div>
+            ))}
+            <div className="px-3 flex-none">
+              <button className="bg-black text-white font-bold text-sm rounded-lg h-12 px-4 whitespace-nowrap hover:bg-gray-900 transition-colors">
                 Pretraži 5885 vozila
               </button>
             </div>
           </div>
-
-          {/* Right – hero illustration */}
-          <div className="hidden lg:flex items-end self-stretch">
-            <img
-              src="/images/home-hero.svg"
-              alt="Neostar auto"
-              className="h-[380px] w-auto object-contain object-bottom"
-            />
-          </div>
         </div>
-      </div>
 
-      {/* Car type icons row */}
-      <div className="border-t border-gray-100">
-        <div className="max-w-[1320px] mx-auto px-3 py-4">
-          <div className="flex items-center gap-4 overflow-x-auto scrollbar-hide">
-            {carTypes.map(({ label, icon }) => (
+        {/* Car type icons */}
+        <div className="overflow-x-auto pb-6">
+          <div className="flex items-start min-w-max">
+            {carTypes.map((c) => (
               <a
-                key={label}
+                key={c.label}
                 href="#"
-                className="flex-none flex flex-col items-center gap-1.5 group"
+                className="flex flex-col items-center justify-between px-2 pt-4 w-[100px] flex-none hover:opacity-70 transition-opacity"
               >
-                <span className="text-2xl group-hover:scale-110 transition-transform">{icon}</span>
-                <span className="text-xs text-gray-500 group-hover:text-black transition-colors whitespace-nowrap">{label}</span>
+                <img
+                  src={c.icon}
+                  alt={c.label}
+                  className="w-[100px] h-[56px] object-contain mb-2"
+                />
+                <span className="text-[11.6px] text-black text-center whitespace-nowrap leading-[18px]">
+                  {c.label}
+                </span>
               </a>
             ))}
           </div>
         </div>
+
       </div>
     </section>
   );
