@@ -2,64 +2,77 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <main
+      className="relative min-h-screen w-full overflow-hidden flex items-center"
+      style={{ background: "linear-gradient(117.29deg, #7FE5FF 5.19%, #4280EF 81.07%)" }}
+    >
+      {/* Hero decorative shape – right side */}
+      <div className="absolute right-0 top-0 h-full w-[54%] pointer-events-none select-none opacity-10">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
+          src="/assets/hero-image.svg"
+          alt=""
+          fill
+          className="object-contain object-right"
           priority
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 px-8 sm:px-16 lg:px-24 py-16 flex flex-col gap-8">
+
+        {/* NEOSTAR logo – 5 SVG parts side by side */}
+        <div className="flex items-center" style={{ height: "clamp(48px, 8vw, 102px)", gap: "clamp(3px, 0.5vw, 8px)" }}>
+          {/* NE */}
+          <div className="relative flex-none" style={{ height: "100%", aspectRatio: "164.959 / 98.0506" }}>
+            <Image src="/assets/vector.svg" alt="NE" fill className="object-contain" />
+          </div>
+          {/* O */}
+          <div className="relative flex-none" style={{ height: "100%", aspectRatio: "92.6816 / 101.572" }}>
+            <Image src="/assets/mask-group-1.svg" alt="O" fill className="object-contain" />
+          </div>
+          {/* S */}
+          <div className="relative flex-none" style={{ height: "100%", aspectRatio: "78.0694 / 101.572" }}>
+            <Image src="/assets/mask-group-2.svg" alt="S" fill className="object-contain" />
+          </div>
+          {/* TA */}
+          <div className="relative flex-none" style={{ height: "100%", aspectRatio: "156.731 / 98.0546" }}>
+            <Image src="/assets/vector-2.svg" alt="TA" fill className="object-contain" />
+          </div>
+          {/* R */}
+          <div className="relative flex-none" style={{ height: "100%", aspectRatio: "76.9918 / 98.0546" }}>
+            <Image src="/assets/mask-group-3.svg" alt="R" fill className="object-contain" />
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+
+        {/* Heading */}
+        <h1
+          className="text-white font-bold max-w-xl"
+          style={{ fontSize: "clamp(1.75rem, 4vw, 3.5rem)", lineHeight: 1.2 }}
+        >
+          AI prodajni savjetnik
+        </h1>
+
+        {/* Subtitle */}
+        <p className="text-white/80 max-w-md leading-relaxed" style={{ fontSize: "clamp(1rem, 1.5vw, 1.25rem)" }}>
+          Pametni asistent koji pomaže tvojim kupcima pronaći pravi proizvod u pravo vrijeme.
+        </p>
+
+        {/* CTA buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 w-fit">
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#"
+            className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-[#4280EF] font-semibold text-base hover:bg-white/90 transition-colors shadow-lg whitespace-nowrap"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
+            Počni besplatno
           </a>
           <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#"
+            className="inline-flex items-center justify-center px-8 py-4 rounded-full border-2 border-white text-white font-semibold text-base hover:bg-white/10 transition-colors whitespace-nowrap"
           >
-            Documentation
+            Saznaj više
           </a>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
