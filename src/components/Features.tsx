@@ -1,3 +1,5 @@
+import { img } from "@/lib/img";
+
 export default function Features() {
   return (
     <section className="py-12 bg-white">
@@ -11,7 +13,7 @@ export default function Features() {
             style={{ backgroundColor: "#FED69E" }}
           >
             <img
-              src="/images/mirko-hero.png"
+              src={img("/images/mirko-hero.png")}
               alt="Tvoj auto – naša briga"
               className="w-32 h-32 md:w-40 md:h-40 object-contain flex-none"
             />
@@ -32,7 +34,7 @@ export default function Features() {
             style={{ backgroundColor: "#90F0C8" }}
           >
             <img
-              src="/images/financiranje.png"
+              src={img("/images/financiranje.png")}
               alt="Leasing"
               className="w-32 h-32 md:w-40 md:h-40 object-contain flex-none"
             />
@@ -54,7 +56,7 @@ export default function Features() {
           style={{ backgroundColor: "#00CCFF" }}
         >
           <img
-            src="/images/jamstvo.png"
+            src={img("/images/jamstvo.png")}
             alt="Jamstvo"
             className="w-36 h-36 object-contain flex-none"
           />

@@ -1,3 +1,5 @@
+import { img } from "@/lib/img";
+
 const faqLinks = [
   "Zašto kupiti vozilo na NEOSTAR-u?",
   "Koliko traje NEOSTAR jamstvo?",
@@ -16,7 +18,7 @@ export default function Footer() {
           {/* Left – brand */}
           <div>
             <img
-              src="/images/neostar-logo.svg"
+              src={img("/images/neostar-logo.svg")}
               alt="NEOSTAR"
               className="h-6 w-auto mb-4"
             />
@@ -44,10 +46,10 @@ export default function Footer() {
             {/* App store badges */}
             <div className="flex gap-3">
               <a href="#">
-                <img src="/images/google-play.png" alt="Google Play" className="h-9 w-auto" />
+                <img src={img("/images/google-play.png")} alt="Google Play" className="h-9 w-auto" />
               </a>
               <a href="#">
-                <img src="/images/app-store.png" alt="App Store" className="h-9 w-auto" />
+                <img src={img("/images/app-store.png")} alt="App Store" className="h-9 w-auto" />
               </a>
             </div>
           </div>

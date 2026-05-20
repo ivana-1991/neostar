@@ -1,3 +1,5 @@
+import { img } from "@/lib/img";
+
 const services = [
   {
     title: "Trebaš gume?",
@@ -28,7 +30,7 @@ export default function Services() {
             <div key={s.title} className="rounded-2xl overflow-hidden">
               <div className="h-52 overflow-hidden">
                 <img
-                  src={s.image}
+                  src={img(s.image)}
                   alt={s.title}
                   className="w-full h-full object-cover"
                 />

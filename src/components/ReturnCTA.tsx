@@ -1,3 +1,5 @@
+import { img } from "@/lib/img";
+
 export default function ReturnCTA() {
   return (
     <section className="py-0">
@@ -10,7 +12,7 @@ export default function ReturnCTA() {
             style={{ backgroundColor: "#FED69E" }}
           >
             <img
-              src="/images/povrat-vozila.png"
+              src={img("/images/povrat-vozila.png")}
               alt="Povrat vozila"
               className="w-32 h-32 object-contain flex-none"
             />

@@ -1,3 +1,5 @@
+import { img } from "@/lib/img";
+
 const carTypes = [
   { label: "Gradski", icon: "/images/icon-gradski.png" },
   { label: "Monovolumen", icon: "/images/icon-monovolumen.png" },
@@ -50,7 +52,7 @@ export default function Hero() {
           {/* Right – showroom illustration */}
           <div className="flex justify-center md:justify-end">
             <img
-              src="/images/hero-showroom.png"
+              src={img("/images/hero-showroom.png")}
               alt="Neostar showroom"
               className="w-full max-w-[552px] object-contain"
             />
@@ -94,7 +96,7 @@ export default function Hero() {
                 className="flex flex-col items-center justify-between px-2 pt-4 w-[100px] flex-none hover:opacity-70 transition-opacity"
               >
                 <img
-                  src={c.icon}
+                  src={img(c.icon)}
                   alt={c.label}
                   className="w-[100px] h-[56px] object-contain mb-2"
                 />

@@ -1,3 +1,5 @@
+import { img } from "@/lib/img";
+
 export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
@@ -5,7 +7,7 @@ export default function Navbar() {
 
         {/* Logo */}
         <a href="/" className="flex-none">
-          <img src="/images/neostar-logo.svg" alt="NEOSTAR" className="h-5 w-auto" />
+          <img src={img("/images/neostar-logo.svg")} alt="NEOSTAR" className="h-5 w-auto" />
         </a>
 
         {/* Flex-1: center nav + right actions (desktop) */}
