@@ -1,90 +1,85 @@
+const carTypes = [
+  { label: "Gradski", icon: "🚗" },
+  { label: "Monovolumen", icon: "🚐" },
+  { label: "SUV", icon: "🚙" },
+  { label: "Kombi", icon: "🚌" },
+  { label: "Obiteljski", icon: "🚘" },
+  { label: "Novo", icon: "✨" },
+  { label: "Električni", icon: "⚡" },
+  { label: "Kabriolet", icon: "🏎" },
+  { label: "Premium", icon: "💎" },
+  { label: "Putovanje", icon: "✈️" },
+  { label: "Automatik", icon: "⚙️" },
+];
+
 export default function Hero() {
   return (
-    <section className="relative min-h-[560px] lg:min-h-[620px] bg-white overflow-hidden flex items-center">
-      {/* Blue decorative blob top-left */}
-      <div
-        className="absolute -left-32 -top-32 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none"
-        style={{ background: "radial-gradient(circle, #7FE5FF 0%, #4280EF 100%)" }}
-      />
+    <section className="bg-white pt-[72px]">
+      <div className="max-w-[1320px] mx-auto px-3">
+        <div className="grid lg:grid-cols-[1fr_auto] gap-0 items-start">
 
-      <div className="max-w-[1280px] mx-auto px-6 w-full grid lg:grid-cols-2 gap-8 items-center py-16 lg:py-0">
-        {/* Left content */}
-        <div className="relative z-10">
-          <h1 className="text-4xl lg:text-5xl xl:text-[56px] font-bold text-gray-900 leading-[1.1] mb-6">
-            Auto u prvom planu.<br />
-            Ti u centru pažnje.
-          </h1>
+          {/* Left – content */}
+          <div className="py-12 lg:py-16 pr-8">
+            <h1 className="text-[clamp(36px,4vw,56px)] font-bold text-black leading-[1.1] mb-8">
+              Auto u prvom planu.<br />
+              Ti u centru pažnje.
+            </h1>
 
-          {/* Search box */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 mb-6 max-w-lg">
-            <div className="flex gap-3 mb-3">
-              <select className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#4280EF]/20">
-                <option>Marka</option>
-                <option>Audi</option>
-                <option>BMW</option>
-                <option>Mercedes</option>
-                <option>Volkswagen</option>
-              </select>
-              <select className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#4280EF]/20">
-                <option>Model</option>
-              </select>
+            {/* CTA button */}
+            <a
+              href="#"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm mb-10"
+              style={{ backgroundColor: "#80CEAA" }}
+            >
+              Pronađi svoj auto
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+
+            {/* Search filters */}
+            <div className="flex items-center gap-2 flex-wrap lg:flex-nowrap border border-gray-200 rounded-xl p-3 shadow-sm bg-white mb-8">
+              {["Marka", "Model", "Godište", "Kilometraža", "Cijena"].map((label) => (
+                <div key={label} className="relative flex-1 min-w-[90px]">
+                  <select className="w-full appearance-none bg-transparent text-sm text-gray-700 pr-6 py-1 border-r border-gray-200 last:border-r-0 focus:outline-none cursor-pointer">
+                    <option>{label}</option>
+                  </select>
+                  <svg className="absolute right-1 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              ))}
+              <button className="flex-none px-4 py-2 bg-black text-white text-xs font-semibold rounded-lg whitespace-nowrap hover:bg-gray-800 transition-colors">
+                Pretraži 5885 vozila
+              </button>
             </div>
-            <div className="flex gap-3 mb-4">
-              <select className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#4280EF]/20">
-                <option>God. od</option>
-                <option>2018</option>
-                <option>2019</option>
-                <option>2020</option>
-                <option>2021</option>
-                <option>2022</option>
-                <option>2023</option>
-              </select>
-              <select className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#4280EF]/20">
-                <option>Cijena do</option>
-                <option>10.000 €</option>
-                <option>20.000 €</option>
-                <option>30.000 €</option>
-                <option>50.000 €</option>
-              </select>
-            </div>
-            <button className="w-full py-3 bg-[#4280EF] text-white font-semibold rounded-xl hover:bg-[#3570df] transition-colors text-sm">
-              Pretraži vozila
-            </button>
           </div>
 
-          <a href="#" className="inline-flex items-center gap-2 text-sm text-[#4280EF] font-medium hover:underline">
-            Pregledaj ponudu
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
+          {/* Right – hero illustration */}
+          <div className="hidden lg:flex items-end self-stretch">
+            <img
+              src="/images/home-hero.svg"
+              alt="Neostar auto"
+              className="h-[380px] w-auto object-contain object-bottom"
+            />
+          </div>
         </div>
+      </div>
 
-        {/* Right – car image with pink background */}
-        <div className="relative hidden lg:flex items-end justify-center">
-          <div
-            className="absolute inset-0 rounded-3xl"
-            style={{ background: "linear-gradient(135deg, #FFB3C6 0%, #FF6B9D 100%)" }}
-          />
-          <div className="relative z-10 w-full flex items-center justify-center p-8">
-            {/* Car placeholder – in real implementation, use actual car image */}
-            <div className="w-full max-w-md">
-              <svg viewBox="0 0 500 280" className="w-full drop-shadow-2xl">
-                <ellipse cx="250" cy="260" rx="200" ry="15" fill="rgba(0,0,0,0.1)" />
-                <rect x="80" y="160" width="340" height="80" rx="20" fill="white" opacity="0.95"/>
-                <rect x="120" y="120" width="260" height="80" rx="16" fill="white" opacity="0.95"/>
-                <rect x="140" y="100" width="80" height="50" rx="8" fill="#E8F4FD" opacity="0.9"/>
-                <rect x="280" y="100" width="80" height="50" rx="8" fill="#E8F4FD" opacity="0.9"/>
-                <circle cx="140" cy="245" r="30" fill="#333" />
-                <circle cx="140" cy="245" r="18" fill="#666" />
-                <circle cx="140" cy="245" r="8" fill="#999" />
-                <circle cx="360" cy="245" r="30" fill="#333" />
-                <circle cx="360" cy="245" r="18" fill="#666" />
-                <circle cx="360" cy="245" r="8" fill="#999" />
-                <rect x="85" y="175" width="60" height="30" rx="4" fill="#FFD700" opacity="0.8"/>
-                <rect x="355" y="175" width="60" height="30" rx="4" fill="#FF6B35" opacity="0.8"/>
-              </svg>
-            </div>
+      {/* Car type icons row */}
+      <div className="border-t border-gray-100">
+        <div className="max-w-[1320px] mx-auto px-3 py-4">
+          <div className="flex items-center gap-4 overflow-x-auto scrollbar-hide">
+            {carTypes.map(({ label, icon }) => (
+              <a
+                key={label}
+                href="#"
+                className="flex-none flex flex-col items-center gap-1.5 group"
+              >
+                <span className="text-2xl group-hover:scale-110 transition-transform">{icon}</span>
+                <span className="text-xs text-gray-500 group-hover:text-black transition-colors whitespace-nowrap">{label}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>

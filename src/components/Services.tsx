@@ -1,52 +1,45 @@
 const services = [
   {
     title: "Trebaš gume?",
-    desc: "Kad tvom limenom ljubimcu zatrebaju cipele za novu sezonu, skreni do jednog od naših servisera, kupi i ugradi nove gume!",
+    desc: "Kad tvom limenom ljubimcu zatrebaju cipele za novu sezonu, skreni do jednog od naših servisera, kupi i ugradi nove gume! Brzo i bez gnjavaže.",
     cta: "Dogovori termin",
-    image: "🔧",
-    bg: "#1a1a2e",
+    image: "/images/gume.png",
   },
   {
     title: "Vrijeme za servis?",
-    desc: "Upalila se lampica ili je jednostavno vrijeme za redovan pregled automobila? U par klikova saznaj cijenu i naruči se na servis.",
+    desc: "Upalila se lampica ili je jednostavno vrijeme za redovan pregled automobila? U par klikova saznaj cijenu i naruči se na servis. Bez iznenađenja i nenadanog udarca na tvoj džep!",
     cta: "Saznaj cijenu servisa",
-    image: "🔩",
-    bg: "#16213e",
+    image: "/images/servis.png",
   },
   {
     title: "Zašto Neostar?",
-    desc: "Kupnja i prodaja auta mogu biti jednostavne, brze i sigurne. Kod nas je sve transparentno, bez skrivenih troškova i gubljenja vremena.",
+    desc: "Kupnja i prodaja auta mogu biti jednostavne, brze i sigurne. Kod nas je sve transparentno, bez skrivenih troškova i gubljenja vremena. Saznaj kako točno funkcioniramo.",
     cta: "Česta pitanja",
-    image: "⭐",
-    bg: "#0f3460",
+    image: "/images/zasto-neostar.png",
   },
 ];
 
 export default function Services() {
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-[1280px] mx-auto px-6">
+    <section className="py-12 bg-white">
+      <div className="max-w-[1320px] mx-auto px-3">
         <div className="grid md:grid-cols-3 gap-6">
           {services.map((s) => (
-            <div key={s.title} className="rounded-2xl overflow-hidden group">
-              {/* Image area */}
-              <div
-                className="h-48 flex items-center justify-center text-6xl"
-                style={{ backgroundColor: s.bg }}
-              >
-                {s.image}
+            <div key={s.title} className="rounded-2xl overflow-hidden">
+              <div className="h-52 overflow-hidden">
+                <img
+                  src={s.image}
+                  alt={s.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
-              {/* Content */}
-              <div className="p-6 border border-t-0 border-gray-100 rounded-b-2xl">
-                <h3 className="font-bold text-gray-900 text-lg mb-2">{s.title}</h3>
+              <div className="pt-5 pb-2">
+                <h3 className="text-lg font-bold text-black mb-2">{s.title}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-4">{s.desc}</p>
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#4280EF] hover:underline"
-                >
+                <a href="#" className="inline-flex items-center gap-1.5 px-4 py-2 border border-black text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">
                   {s.cta}
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </a>
               </div>

@@ -1,58 +1,78 @@
-const footerLinks = {
-  "Kupnja": ["Pretraži vozila", "Pretraži po marki", "Pretraži po godini", "Kako funkcionira"],
-  "Prodaja": ["Prodaj vozilo", "NeoConcierge", "Procjena vozila", "Česta pitanja"],
-  "Servis": ["Pronađi servis", "Gume", "Redovni servis", "Hitne intervencije"],
-  "Neostar": ["O nama", "Blog", "Karijere", "Kontakt"],
-};
+const faqLinks = [
+  "Zašto kupiti vozilo na NEOSTAR-u?",
+  "Koliko traje NEOSTAR jamstvo?",
+  "Kako prodati vozilo putem NEOSTAR-a?",
+  "Kako postati ugovorni korisnik?",
+  "Što uključuje NEOSTAR pregled vozila?",
+  "Po čemu se Neostar razlikuje od ostalih oglašivača?",
+];
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-16">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
-          {/* Logo + description */}
-          <div className="col-span-2 md:col-span-1">
-            <img src="/assets/vector.svg" alt="NEOSTAR" className="h-[20px] w-auto mb-4 brightness-0 invert" />
-            <p className="text-sm text-gray-400 leading-relaxed">
-              Nov način kupnje, prodaje i održavanja automobila.
+    <footer style={{ backgroundColor: "#ECFCFF" }} className="py-12">
+      <div className="max-w-[1320px] mx-auto px-3">
+        <div className="grid md:grid-cols-[300px_1fr] gap-12 mb-10">
+
+          {/* Left – brand */}
+          <div>
+            <img
+              src="/images/neostar-logo.svg"
+              alt="NEOSTAR"
+              className="h-6 w-auto mb-4"
+            />
+            <p className="text-sm text-gray-700 leading-relaxed mb-6 max-w-xs">
+              Neostar je nova platforma za kupnju, prodaju i servisiranje vozila. Uz pomoć napredne tehnologije na pametniji način održavaj svoje vozilo, potraži novo ili pronađi kupca za staro. Jednostavnije, brže, sigurnije.
             </p>
             {/* Social icons */}
-            <div className="flex gap-3 mt-4">
-              {["f", "in", "ig", "yt"].map((s) => (
+            <div className="flex gap-3 mb-6">
+              {[
+                { icon: "f", label: "Facebook" },
+                { icon: "ig", label: "Instagram" },
+                { icon: "yt", label: "YouTube" },
+                { icon: "x", label: "X" },
+              ].map(({ icon, label }) => (
                 <a
-                  key={s}
+                  key={icon}
                   href="#"
-                  className="w-8 h-8 rounded-full bg-gray-700 hover:bg-[#4280EF] transition-colors flex items-center justify-center text-xs font-bold text-gray-300 hover:text-white"
+                  aria-label={label}
+                  className="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center text-xs font-bold text-gray-600 hover:border-gray-900 hover:text-gray-900 transition-colors"
                 >
-                  {s}
+                  {icon}
                 </a>
               ))}
             </div>
+            {/* App store badges */}
+            <div className="flex gap-3">
+              <a href="#">
+                <img src="/images/google-play.png" alt="Google Play" className="h-9 w-auto" />
+              </a>
+              <a href="#">
+                <img src="/images/app-store.png" alt="App Store" className="h-9 w-auto" />
+              </a>
+            </div>
           </div>
 
-          {/* Link columns */}
-          {Object.entries(footerLinks).map(([heading, links]) => (
-            <div key={heading}>
-              <h4 className="font-semibold text-sm mb-4">{heading}</h4>
-              <ul className="space-y-2">
-                {links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Right – FAQ links in 2 cols */}
+          <div className="grid sm:grid-cols-2 gap-3">
+            {faqLinks.map((link) => (
+              <a
+                key={link}
+                href="#"
+                className="text-sm text-black underline hover:text-gray-600 transition-colors leading-relaxed"
+              >
+                {link}
+              </a>
+            ))}
+          </div>
         </div>
 
-        <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <span>© 2025 Neostar. Sva prava pridržana.</span>
+        {/* Bottom bar */}
+        <div className="border-t border-gray-200 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600">
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white">Uvjeti korištenja</a>
-            <a href="#" className="hover:text-white">Privatnost</a>
-            <a href="#" className="hover:text-white">Kolačići</a>
+            <a href="#" className="hover:text-black">Opći uvjeti poslovanja</a>
+            <a href="#" className="hover:text-black">Izjava o zaštiti privatnosti</a>
+            <a href="#" className="hover:text-black">Kontakt</a>
+            <a href="#" className="hover:text-black">FAQ</a>
           </div>
         </div>
       </div>
