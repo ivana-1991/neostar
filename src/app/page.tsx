@@ -1,78 +1,106 @@
-import Image from "next/image";
+/* ─────────────────────────────────────────────────────────
+   Neostar – Hero page
+   Figma canvas: 1600 × 900 px
+   Colors: gradient #7FE5FF → #4280EF (117.29°)
+   Logo: "NEOSTAR" wordmark in 5 SVG parts (public/assets/)
+   Hero deco: star shape, right side, opacity 10%
+───────────────────────────────────────────────────────── */
 
 export default function Home() {
   return (
-    <main
-      className="relative min-h-screen w-full overflow-hidden flex items-center"
-      style={{ background: "linear-gradient(117.29deg, #7FE5FF 5.19%, #4280EF 81.07%)" }}
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+        minHeight: "100vh",
+        overflow: "hidden",
+        background: "linear-gradient(117.29deg, #7FE5FF 5.19%, #4280EF 81.07%)",
+        display: "flex",
+        alignItems: "center",
+      }}
     >
-      {/* Hero decorative shape – right side */}
-      <div className="absolute right-0 top-0 h-full w-[54%] pointer-events-none select-none opacity-10">
-        <Image
+      {/* ── Decorative star – right side, full height, 10% opacity ── */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          right: 0,
+          top: 0,
+          height: "100%",
+          width: "54%",
+          opacity: 0.1,
+          pointerEvents: "none",
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/assets/hero-image.svg"
           alt=""
-          fill
-          className="object-contain object-right"
-          priority
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "left center" }}
         />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 px-8 sm:px-16 lg:px-24 py-16 flex flex-col gap-8">
-
-        {/* NEOSTAR logo – 5 SVG parts side by side */}
-        <div className="flex items-center" style={{ height: "clamp(48px, 8vw, 102px)", gap: "clamp(3px, 0.5vw, 8px)" }}>
+      {/* ── Left content column ── */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          paddingLeft: "clamp(24px, 5.3125vw, 85px)",
+          paddingRight: "clamp(24px, 5vw, 80px)",
+          paddingTop: "clamp(48px, 8vh, 80px)",
+          paddingBottom: "clamp(48px, 8vh, 80px)",
+          maxWidth: "clamp(300px, 50%, 740px)",
+        }}
+      >
+        {/* NEOSTAR wordmark – 5 SVG pieces in a scaled container */}
+        <div
+          role="img"
+          aria-label="Neostar"
+          style={{
+            position: "relative",
+            width: "clamp(220px, 37.5vw, 600px)",
+            aspectRatio: "600 / 102",
+            overflow: "hidden",
+            marginBottom: "clamp(16px, 4.4vh, 40px)",
+          }}
+        >
           {/* NE */}
-          <div className="relative flex-none" style={{ height: "100%", aspectRatio: "164.959 / 98.0506" }}>
-            <Image src="/assets/vector.svg" alt="NE" fill className="object-contain" />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/assets/vector.svg" alt="" aria-hidden="true"
+            style={{ position: "absolute", inset: "1.87% 72.51% 2% 0", width: "auto", height: "auto" }} />
           {/* O */}
-          <div className="relative flex-none" style={{ height: "100%", aspectRatio: "92.6816 / 101.572" }}>
-            <Image src="/assets/mask-group-1.svg" alt="O" fill className="object-contain" />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/assets/mask-group-1.svg" alt="" aria-hidden="true"
+            style={{ position: "absolute", inset: "0.15% 55.7% 0.27% 28.86%", width: "auto", height: "auto" }} />
           {/* S */}
-          <div className="relative flex-none" style={{ height: "100%", aspectRatio: "78.0694 / 101.572" }}>
-            <Image src="/assets/mask-group-2.svg" alt="S" fill className="object-contain" />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/assets/mask-group-2.svg" alt="" aria-hidden="true"
+            style={{ position: "absolute", inset: "0.15% 41.19% 0.27% 45.8%", width: "auto", height: "auto" }} />
           {/* TA */}
-          <div className="relative flex-none" style={{ height: "100%", aspectRatio: "156.731 / 98.0546" }}>
-            <Image src="/assets/vector-2.svg" alt="TA" fill className="object-contain" />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/assets/vector-2.svg" alt="" aria-hidden="true"
+            style={{ position: "absolute", inset: "1.87% 14.42% 2% 59.46%", width: "auto", height: "auto" }} />
           {/* R */}
-          <div className="relative flex-none" style={{ height: "100%", aspectRatio: "76.9918 / 98.0546" }}>
-            <Image src="/assets/mask-group-3.svg" alt="R" fill className="object-contain" />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/assets/mask-group-3.svg" alt="" aria-hidden="true"
+            style={{ position: "absolute", inset: "1.87% -0.06% 2% 87.23%", width: "auto", height: "auto" }} />
         </div>
 
-        {/* Heading */}
-        <h1
-          className="text-white font-bold max-w-xl"
-          style={{ fontSize: "clamp(1.75rem, 4vw, 3.5rem)", lineHeight: 1.2 }}
+        {/* "AI prodajni savjetnik" – Figma: 56px Bold, white */}
+        <p
+          style={{
+            margin: 0,
+            color: "#ffffff",
+            fontWeight: 700,
+            fontSize: "clamp(22px, 3.5vw, 56px)",
+            lineHeight: 1.2,
+            fontFamily: "Inter, sans-serif",
+            letterSpacing: 0,
+          }}
         >
           AI prodajni savjetnik
-        </h1>
-
-        {/* Subtitle */}
-        <p className="text-white/80 max-w-md leading-relaxed" style={{ fontSize: "clamp(1rem, 1.5vw, 1.25rem)" }}>
-          Pametni asistent koji pomaže tvojim kupcima pronaći pravi proizvod u pravo vrijeme.
         </p>
-
-        {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 w-fit">
-          <a
-            href="#"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-[#4280EF] font-semibold text-base hover:bg-white/90 transition-colors shadow-lg whitespace-nowrap"
-          >
-            Počni besplatno
-          </a>
-          <a
-            href="#"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-full border-2 border-white text-white font-semibold text-base hover:bg-white/10 transition-colors whitespace-nowrap"
-          >
-            Saznaj više
-          </a>
-        </div>
       </div>
-    </main>
+    </div>
   );
 }
