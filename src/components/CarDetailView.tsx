@@ -11,7 +11,43 @@ import type { Car } from "@/lib/cars";
 type Props = {
   car: Car;
   related: Car[];
+  sellerCars?: Car[];
 };
+
+// Compact car card used in "Potencijalni / Prodavateljeva" sections
+function MiniCarCard({ car }: { car: Car }) {
+  return (
+    <Link
+      href={`/vozila/${car.id}`}
+      className="bg-white rounded-xl overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
+      style={{ border: "1px solid rgba(0,0,0,0.06)" }}
+    >
+      <div className="aspect-[16/10] bg-gray-50 relative overflow-hidden">
+        <img src={img(car.image)} alt={car.name} className="w-full h-full object-cover" />
+      </div>
+      <div className="p-3 flex-1 flex flex-col gap-1.5">
+        <h3 className="text-[15px] font-bold text-black">{car.name}</h3>
+        <p className="text-[11px] text-[#5F6D7A]">
+          {car.year} · {car.km} · {car.location}
+        </p>
+        <div className="flex gap-1 flex-wrap pt-1">
+          {[car.fuel, car.transmission, car.power].map((spec) => (
+            <span
+              key={spec}
+              className="text-[10px] text-[#5F6D7A] bg-[#F7F7FC] px-1.5 py-0.5 rounded"
+            >
+              {spec}
+            </span>
+          ))}
+        </div>
+        <div className="border-t border-gray-100 pt-2 mt-auto flex items-center justify-between">
+          <span className="text-base font-bold text-black">{car.price}</span>
+          <span className="text-[10px] text-[#00CCFF] font-bold">{car.monthly}</span>
+        </div>
+      </div>
+    </Link>
+  );
+}
 
 // ──────────────────────────────────────────────────────────────────
 // Spec icons
@@ -154,7 +190,7 @@ function calcAlternateMonthly(price: string) {
 // Main view
 // ──────────────────────────────────────────────────────────────────
 
-export default function CarDetailView({ car, related }: Props) {
+export default function CarDetailView({ car, related, sellerCars = [] }: Props) {
   const { open } = useAIChat();
   const [selectedImage, setSelectedImage] = useState(car.image);
   const thumbs = [car.image, car.image, car.image, car.image];
@@ -380,45 +416,193 @@ export default function CarDetailView({ car, related }: Props) {
             </div>
           </div>
 
-          {/* Related cars */}
+          {/* Two-up promo cards: AI savjetnik (left) + Probna vožnja (right) */}
+          <div className="grid md:grid-cols-2 gap-4 mb-6">
+            {/* AI savjetnik card */}
+            <div
+              className="rounded-xl p-5 flex flex-col gap-4"
+              style={{
+                background: "linear-gradient(180deg, #B8F0FF 0%, #BFEDD8 100%)",
+              }}
+            >
+              <div className="flex flex-col md:flex-row gap-4">
+                {/* Mini rate calculator */}
+                <div
+                  className="bg-white rounded-xl p-3 flex-1 max-w-[200px]"
+                  style={{ border: "0.5px solid rgba(0,0,0,0.1)" }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <div
+                      className="flex items-center justify-center rounded-full w-7 h-7 flex-none"
+                      style={{ backgroundColor: "#F7F7FC" }}
+                    >
+                      <img src={img("/images/icon-sparkle.svg")} alt="" className="w-4 h-4" />
+                    </div>
+                    <div className="leading-tight">
+                      <p className="font-bold text-[11px] text-[#0F1419]">AI prodajni savjetnik</p>
+                      <p className="text-[10px] text-[#5F6D7A]">Neostar</p>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-[#5F6D7A] mb-1">Iznos mjesečne rate</p>
+                  <p className="text-[22px] font-bold text-black leading-none mb-3">
+                    {car.monthly.replace("od ", "").replace("/mj", "")}
+                  </p>
+                  <div className="flex flex-col gap-2 text-[11px]">
+                    <div className="flex justify-between border-t border-gray-100 pt-2">
+                      <span className="text-[#5F6D7A]">Učešće (max 50%)</span>
+                      <span className="font-bold text-black">20 %</span>
+                    </div>
+                    <div className="flex justify-between border-t border-gray-100 pt-2">
+                      <span className="text-[#5F6D7A]">Zadnja mj. rata</span>
+                      <span className="font-bold text-black">5 %</span>
+                    </div>
+                    <div className="flex justify-between border-t border-gray-100 pt-2">
+                      <span className="text-[#5F6D7A]">Trajanje otplate</span>
+                      <span className="font-bold text-black">36 mjeseci</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right side: title + benefits */}
+                <div className="flex-1 flex flex-col gap-2">
+                  <h3 className="text-lg font-bold text-black leading-tight">
+                    Tvoj AI savjetnik.<br />Tvoja rata u par klikova.
+                  </h3>
+                  <p className="text-[12px] text-[#212529] leading-snug">
+                    Neostarov AI prodajni savjetnik pronalazi pravi auto za tebe i odmah ti pokaže koliko bi te koštao. Pitaj, dobij prijedlog, vidi izračun — sve u jednom razgovoru.
+                  </p>
+                  <ul className="flex flex-col gap-1 mt-1">
+                    {[
+                      "Preporuke modela koji ti odgovaraju",
+                      "Trenutni izračun rate za svaki auto",
+                      "AI savjetnik dostupan 24/7, bez čekanja",
+                    ].map((b) => (
+                      <li key={b} className="flex items-start gap-1.5 text-[12px] text-[#212529]">
+                        <svg className="w-3.5 h-3.5 text-[#212529] mt-0.5 flex-none" fill="none" viewBox="0 0 20 20" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4 10l4 4 8-8" />
+                        </svg>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="flex items-center justify-between gap-3 flex-wrap mt-auto">
+                <button
+                  type="button"
+                  onClick={() => open({ car, query: `Detaljnije o ${car.name}` })}
+                  className="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm font-semibold text-[#212529] hover:bg-gray-50 transition-colors"
+                >
+                  Pitaj AI savjetnika
+                </button>
+                <p className="text-[11px] text-[#5F6D7A] flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#80CEAA]" />
+                  AI savjetnik je online · odgovara odmah
+                </p>
+              </div>
+            </div>
+
+            {/* Probna vožnja card */}
+            <div
+              className="rounded-xl p-5 flex flex-col gap-3 relative overflow-hidden"
+              style={{ backgroundColor: "#FED69E" }}
+            >
+              <h3 className="text-lg font-bold text-black">Probna vožnja</h3>
+              <p className="text-sm text-[#212529] leading-snug max-w-[60%]">
+                Odaberi termin testne vožnje koji ti najviše odgovara. Prodavatelj će ti u najkraćem roku poslati potvrdu ili ponuditi alternativno vrijeme i lokaciju.
+              </p>
+              <img
+                src={img("/images/povrat-vozila.png")}
+                alt=""
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-40 h-32 object-contain opacity-90 hidden sm:block"
+              />
+              <button
+                type="button"
+                onClick={() => open(`Želim probnu vožnju za ${car.name}`)}
+                className="bg-white border border-gray-400 rounded-lg px-5 py-2 text-sm font-semibold text-[#212529] hover:bg-gray-50 transition-colors self-start mt-auto z-10"
+              >
+                Zatraži probnu vožnju
+              </button>
+            </div>
+          </div>
+
+          {/* Neostar Concierge */}
+          <div
+            className="rounded-xl p-5 flex flex-col gap-3 mb-8 max-w-2xl mx-auto"
+            style={{ backgroundColor: "#ECFCFF" }}
+          >
+            <div className="flex items-center gap-2">
+              <div
+                className="flex items-center justify-center rounded-full w-7 h-7 flex-none"
+                style={{ backgroundColor: "#00CCFF" }}
+              >
+                <span className="text-white text-xs font-bold">N</span>
+              </div>
+              <p className="font-bold text-sm text-[#0F1419]">Neostar Concierge</p>
+            </div>
+            <p className="text-[13px] text-[#212529] leading-relaxed">
+              Neoconcierge usluga osmišljena je kako bi za prodavatelje koji nisu u prilici sami prodavati vozilo, Neostar preuzeo svu komunikaciju oko prodaje. Vozila se nalaze kod prodavatelja, ali za sve upite se obraćaš direktno Neostaru.
+            </p>
+            <span
+              className="inline-flex items-center justify-center px-3 py-1.5 rounded-md text-[11px] font-bold text-white self-start"
+              style={{ backgroundColor: "#00CCFF" }}
+            >
+              NEOSTAR
+            </span>
+          </div>
+
+          {/* Potencijalni automobili */}
           {related.length > 0 && (
-            <div className="mb-6">
-              <h2 className="text-xl font-bold text-black mb-4">
-                Slična vozila {car.brand}
-              </h2>
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-black">Potencijalni automobili</h2>
+                <button
+                  type="button"
+                  onClick={() => open(`Pokaži mi slična vozila kao ${car.name}`)}
+                  className="text-sm text-[#01A5CE] hover:underline flex items-center gap-1"
+                >
+                  Nastavi komunikaciju
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M7 7h10v10" />
+                  </svg>
+                </button>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {related.map((rc) => (
-                  <Link
-                    key={rc.id}
-                    href={`/vozila/${rc.id}`}
-                    className="bg-white rounded-xl overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
-                    style={{ border: "1px solid rgba(0,0,0,0.06)" }}
-                  >
-                    <div className="aspect-[16/10] bg-gray-50 relative overflow-hidden">
-                      <img src={img(rc.image)} alt={rc.name} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="p-3 flex-1 flex flex-col gap-1.5">
-                      <h3 className="text-[15px] font-bold text-black">{rc.name}</h3>
-                      <p className="text-[11px] text-[#5F6D7A]">
-                        {rc.year} · {rc.km} · {rc.location}
-                      </p>
-                      <div className="flex gap-1 flex-wrap pt-1">
-                        {[rc.fuel, rc.transmission, rc.power].map((spec) => (
-                          <span
-                            key={spec}
-                            className="text-[10px] text-[#5F6D7A] bg-[#F7F7FC] px-1.5 py-0.5 rounded"
-                          >
-                            {spec}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="border-t border-gray-100 pt-2 mt-auto flex items-center justify-between">
-                        <span className="text-base font-bold text-black">{rc.price}</span>
-                        <span className="text-[10px] text-[#00CCFF] font-bold">{rc.monthly}</span>
-                      </div>
-                    </div>
-                  </Link>
+                  <MiniCarCard key={rc.id} car={rc} />
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* Automobili ovog prodavatelja */}
+          {sellerCars.length > 0 && (
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-black">Automobili ovog prodavatelja</h2>
+                <Link
+                  href="/vozila"
+                  className="text-sm text-[#01A5CE] hover:underline flex items-center gap-1"
+                >
+                  Prikaži više
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M7 7h10v10" />
+                  </svg>
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {sellerCars.map((sc) => (
+                  <MiniCarCard key={sc.id} car={sc} />
+                ))}
+              </div>
+              {/* Carousel-like arrows on the right (decorative for now) */}
+              <div className="flex justify-end gap-2 mt-4">
+                <button className="w-9 h-9 flex items-center justify-center rounded-full border border-gray-200 text-[#5F6D7A] hover:bg-gray-50">
+                  ‹
+                </button>
+                <button className="w-9 h-9 flex items-center justify-center rounded-full border border-gray-200 text-[#5F6D7A] hover:bg-gray-50">
+                  ›
+                </button>
               </div>
             </div>
           )}
