@@ -3,24 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useAIChat } from "@/lib/aiChatContext";
 import { img } from "@/lib/img";
+import { CARS, type Car } from "@/lib/cars";
 
 // ──────────────────────────────────────────────────────────────────
 // Types
 // ──────────────────────────────────────────────────────────────────
-
-type Car = {
-  id: string;
-  name: string;
-  year: string;
-  km: string;
-  location: string;
-  fuel: string;
-  transmission: string;
-  power: string;
-  price: string;
-  monthly: string;
-  image: string;
-};
 
 type Message =
   | { kind: "ai"; text: string }
@@ -33,48 +20,6 @@ type Stage = "welcome" | "inquiry" | "recommendations" | "car-detail" | "free";
 // ──────────────────────────────────────────────────────────────────
 // Data
 // ──────────────────────────────────────────────────────────────────
-
-const CARS: Car[] = [
-  {
-    id: "fiat-500",
-    name: "FIAT 500 1.2",
-    year: "2016. g.",
-    km: "55.000 km",
-    location: "Velika Gorica",
-    fuel: "Benzin",
-    transmission: "Mehanički",
-    power: "51 KS",
-    price: "9.800 €",
-    monthly: "od 105 €/mj",
-    image: "/images/car-fiat-500.jpg",
-  },
-  {
-    id: "vw-polo",
-    name: "VW Polo 1.0 TSI",
-    year: "2020. g.",
-    km: "48.300 km",
-    location: "Zagreb",
-    fuel: "Benzin",
-    transmission: "Mehanički",
-    power: "70 KS",
-    price: "13.900 €",
-    monthly: "od 149 €/mj",
-    image: "/images/car-vw-polo.jpg",
-  },
-  {
-    id: "opel-corsa",
-    name: "Opel Corsa 1.2",
-    year: "2021. g.",
-    km: "56.800 km",
-    location: "Varaždin",
-    fuel: "Benzin",
-    transmission: "Mehanički",
-    power: "55 KS",
-    price: "12.700 €",
-    monthly: "od 137 €/mj",
-    image: "/images/car-opel-corsa.jpg",
-  },
-];
 
 const SUGGESTIONS_INITIAL = [
   {
