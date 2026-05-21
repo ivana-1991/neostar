@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { img } from "@/lib/img";
+import AISearchBar from "@/components/AISearchBar";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -17,15 +18,7 @@ export default function Navbar() {
 
         {/* Mobile only: AI search bar inline */}
         <div className="lg:hidden flex-1 min-w-0">
-          <div
-            className="flex items-center gap-2 px-4 py-1.5 rounded-lg border"
-            style={{ backgroundColor: "#ECFCFF", borderColor: "#00CCFF" }}
-          >
-            <svg className="w-5 h-5 flex-none text-[#00CCFF]" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/>
-            </svg>
-            <span className="text-[13px] text-[#444] whitespace-nowrap">Pitaj me ...</span>
-          </div>
+          <AISearchBar />
         </div>
 
         {/* Desktop: center nav + right actions */}
@@ -40,23 +33,7 @@ export default function Navbar() {
 
             {/* AI search bar */}
             <div className="relative mx-2.5 w-[450px] flex-none">
-              <div
-                className="flex items-center gap-2 px-6 py-1.5 rounded-lg border text-[13px] text-[#333] cursor-text"
-                style={{ backgroundColor: "#ECFCFF", borderColor: "#00CCFF" }}
-              >
-                <svg className="w-5 h-5 flex-none text-[#00CCFF]" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/>
-                </svg>
-                <span>Pitaj me ...</span>
-              </div>
-              <div
-                className="absolute -top-2 right-0.5 px-1 py-0.5 rounded flex items-center justify-center"
-                style={{ backgroundColor: "#ECFCFF" }}
-              >
-                <svg className="w-5 h-5 text-[#00CCFF]" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/>
-                </svg>
-              </div>
+              <AISearchBar />
             </div>
           </div>
 
