@@ -4,7 +4,8 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 
 type AIChatContextValue = {
   isOpen: boolean;
-  open: () => void;
+  initialQuery: string | undefined;
+  open: (query?: string) => void;
   close: () => void;
 };
 
@@ -12,9 +13,18 @@ const AIChatContext = createContext<AIChatContextValue | null>(null);
 
 export function AIChatProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [initialQuery, setInitialQuery] = useState<string | undefined>(undefined);
 
-  const open = useCallback(() => setIsOpen(true), []);
-  const close = useCallback(() => setIsOpen(false), []);
+  const open = useCallback((query?: string) => {
+    setInitialQuery(query && query.trim() ? query.trim() : undefined);
+    setIsOpen(true);
+  }, []);
+
+  const close = useCallback(() => {
+    setIsOpen(false);
+    // clear initialQuery shortly after close (lets modal animation finish if any)
+    setTimeout(() => setInitialQuery(undefined), 200);
+  }, []);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -38,7 +48,7 @@ export function AIChatProvider({ children }: { children: React.ReactNode }) {
   }, [isOpen]);
 
   return (
-    <AIChatContext.Provider value={{ isOpen, open, close }}>
+    <AIChatContext.Provider value={{ isOpen, initialQuery, open, close }}>
       {children}
     </AIChatContext.Provider>
   );

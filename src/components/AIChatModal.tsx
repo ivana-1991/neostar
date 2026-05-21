@@ -297,7 +297,7 @@ function SuggestionButton({
 // ──────────────────────────────────────────────────────────────────
 
 export default function AIChatModal() {
-  const { isOpen, close } = useAIChat();
+  const { isOpen, initialQuery, close } = useAIChat();
   const [stage, setStage] = useState<Stage>("welcome");
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
@@ -305,12 +305,25 @@ export default function AIChatModal() {
 
   // Reset state when reopening
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) return;
+    setSelectedCar(null);
+    if (initialQuery) {
+      // User typed a question into the search bar → jump straight to recommendations
+      setMessages([
+        { kind: "user", text: initialQuery },
+        {
+          kind: "ai",
+          text:
+            "Super! Evo 3 provjerena vozila iz naše ponude. Svi s Neostar jamstvom i pregledom u 59 točaka.",
+        },
+        { kind: "cars", intro: "Preporuke za tebe:", cars: CARS },
+      ]);
+      setStage("recommendations");
+    } else {
       setStage("welcome");
       setMessages([]);
-      setSelectedCar(null);
     }
-  }, [isOpen]);
+  }, [isOpen, initialQuery]);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {

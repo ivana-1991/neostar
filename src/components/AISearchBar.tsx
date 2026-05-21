@@ -13,10 +13,10 @@ const PROMPTS = [
   "Imam 15.000€, što preporučaš?",
 ];
 
-const TYPE_SPEED = 45;       // ms per character while typing
-const DELETE_SPEED = 25;     // ms per character while deleting
-const HOLD_FULL_MS = 1800;   // pause after fully typed
-const HOLD_EMPTY_MS = 350;   // pause before starting next prompt
+const TYPE_SPEED = 45;
+const DELETE_SPEED = 25;
+const HOLD_FULL_MS = 1800;
+const HOLD_EMPTY_MS = 350;
 
 type Props = {
   className?: string;
@@ -25,11 +25,25 @@ type Props = {
 
 export default function AISearchBar({ className = "", innerClassName = "" }: Props) {
   const { open } = useAIChat();
+  const [value, setValue] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   const [promptIndex, setPromptIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [phase, setPhase] = useState<"typing" | "holdFull" | "deleting" | "holdEmpty">("typing");
 
+  const showAnimation = !isFocused && value.length === 0;
+
+  // Reset animation state when it gets hidden so it restarts cleanly when shown again
   useEffect(() => {
+    if (!showAnimation) {
+      setDisplayed("");
+      setPhase("typing");
+      setPromptIndex(0);
+    }
+  }, [showAnimation]);
+
+  useEffect(() => {
+    if (!showAnimation) return;
     const fullText = PROMPTS[promptIndex];
     let timeoutId: ReturnType<typeof setTimeout>;
 
@@ -57,32 +71,61 @@ export default function AISearchBar({ className = "", innerClassName = "" }: Pro
     }
 
     return () => clearTimeout(timeoutId);
-  }, [displayed, phase, promptIndex]);
+  }, [displayed, phase, promptIndex, showAnimation]);
+
+  const handleSubmit = () => {
+    const query = value.trim();
+    open(query || undefined);
+    setValue("");
+  };
 
   return (
-    <button
-      type="button"
-      onClick={open}
-      className={`relative rounded-lg p-[1px] block w-full text-left cursor-pointer ${className}`}
+    <div
+      className={`relative rounded-lg p-[1px] ${className}`}
       style={{
         background: "linear-gradient(to right, #00CCFF 4.97%, #80CEAA 94.75%)",
       }}
-      aria-label="Otvori AI savjetnika"
     >
       <div
-        className={`flex items-center gap-2 px-4 md:px-6 py-1.5 rounded-[7px] ${innerClassName}`}
+        className={`flex items-center gap-2 px-4 md:px-6 py-1.5 rounded-[7px] relative ${innerClassName}`}
         style={{ backgroundColor: "#ECFCFF" }}
       >
         <img
           src={img("/images/icon-sparkle.svg")}
           alt=""
-          className="w-5 h-5 flex-none"
+          className="w-5 h-5 flex-none relative z-10"
         />
-        <span className="text-[13px] md:text-[13.2px] text-[#222] whitespace-nowrap overflow-hidden">
-          {displayed}
-          <span className="inline-block w-[1px] h-[14px] align-middle ml-0.5 bg-[#222] animate-[blink_1s_steps(2,start)_infinite]" />
-        </span>
+
+        {/* Animated overlay shown when input is empty + unfocused */}
+        {showAnimation && (
+          <div
+            className="absolute inset-0 flex items-center gap-2 px-4 md:px-6 pointer-events-none"
+            aria-hidden="true"
+          >
+            <span className="w-5 h-5 flex-none invisible" />
+            <span className="text-[13px] md:text-[13.2px] text-[#222] whitespace-nowrap overflow-hidden">
+              {displayed}
+              <span className="inline-block w-[1px] h-[14px] align-middle ml-0.5 bg-[#222] animate-[blink_1s_steps(2,start)_infinite]" />
+            </span>
+          </div>
+        )}
+
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleSubmit();
+            }
+          }}
+          aria-label="Pitaj AI savjetnika"
+          className="flex-1 min-w-0 bg-transparent outline-none text-[13px] md:text-[13.2px] text-[#222] placeholder-transparent"
+        />
       </div>
-    </button>
+    </div>
   );
 }
