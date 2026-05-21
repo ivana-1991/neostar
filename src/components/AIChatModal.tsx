@@ -28,7 +28,7 @@ type Message =
   | { kind: "cars"; intro: string; cars: Car[] }
   | { kind: "car-detail"; car: Car };
 
-type Stage = "welcome" | "inquiry" | "recommendations" | "car-detail";
+type Stage = "welcome" | "inquiry" | "recommendations" | "car-detail" | "free";
 
 // ──────────────────────────────────────────────────────────────────
 // Data
@@ -308,6 +308,181 @@ function SuggestionButton({
   );
 }
 
+function TypingIndicator() {
+  return (
+    <div
+      className="self-start px-4 py-3.5"
+      style={{
+        backgroundColor: "#F7F7FC",
+        borderRadius: "4px 12px 12px 12px",
+      }}
+    >
+      <span className="flex gap-1 items-center">
+        <span
+          className="w-1.5 h-1.5 rounded-full bg-[#5F6D7A] animate-[chat-dot_1.2s_ease-in-out_infinite]"
+          style={{ animationDelay: "0s" }}
+        />
+        <span
+          className="w-1.5 h-1.5 rounded-full bg-[#5F6D7A] animate-[chat-dot_1.2s_ease-in-out_infinite]"
+          style={{ animationDelay: "0.2s" }}
+        />
+        <span
+          className="w-1.5 h-1.5 rounded-full bg-[#5F6D7A] animate-[chat-dot_1.2s_ease-in-out_infinite]"
+          style={{ animationDelay: "0.4s" }}
+        />
+      </span>
+    </div>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Smart response generator
+// ──────────────────────────────────────────────────────────────────
+
+function generateAIResponse(userMsg: string): Message[] {
+  const lower = userMsg.toLowerCase();
+
+  const has = (...keywords: string[]) => keywords.some((k) => lower.includes(k));
+
+  // Car recommendations — user is asking for a car
+  if (
+    has(
+      "auto",
+      "vozilo",
+      "tražim",
+      "trebam",
+      "obitelj",
+      "suv",
+      "gradski",
+      "kombi",
+      "preporuč",
+      "fiat",
+      "polo",
+      "corsa",
+      "hatchback",
+      "električ",
+      "hibrid",
+      "polov"
+    )
+  ) {
+    return [
+      {
+        kind: "ai",
+        text:
+          "Super! Evo 3 provjerena vozila iz naše ponude. Svi s Neostar jamstvom i pregledom u 59 točaka.",
+      },
+      { kind: "cars", intro: "Preporuke za tebe:", cars: CARS },
+    ];
+  }
+
+  // Leasing / kredit / mjesečna rata
+  if (has("lizing", "leasing", "kredit", "rata", "mjesečn", "financ", "izračun")) {
+    return [
+      {
+        kind: "ai",
+        text:
+          "Mjesečna rata ovisi o cijeni auta, učešću i trajanju ugovora. Za primjer:\n• 10.000 € · 60 mj · 20% učešće → od 145 €/mj\n• 15.000 € · 60 mj · 20% učešće → od 218 €/mj\n• 25.000 € · 84 mj · 30% učešće → od 270 €/mj\n\nKamatna stopa od 5,99% EKS. Želiš li detaljniji izračun za konkretni auto?",
+      },
+    ];
+  }
+
+  // Probna vožnja
+  if (has("probna", "test drive", "isprobaj", "vožnj")) {
+    return [
+      {
+        kind: "ai",
+        text:
+          "Super! Probnu vožnju možeš dogovoriti online u 3 koraka:\n1. Odaberi auto\n2. Izaberi dan i vrijeme\n3. Potvrdi termin\n\nMožemo to napraviti odmah — koje vrijeme ti odgovara ovog tjedna?",
+      },
+    ];
+  }
+
+  // Oprema / specifikacije
+  if (has("oprema", "specifikacij", "specs", "dodaci", "navig", "klima")) {
+    return [
+      {
+        kind: "ai",
+        text:
+          "Sva naša vozila imaju standardno: klima uređaj, ABS, ESP, 6+ airbaga i tempomat. Premium oprema (kožni volan, navigacija, parking senzori, kamera) je dostupna na većini modela. Koje opcije te zanimaju?",
+      },
+    ];
+  }
+
+  // Usporedba
+  if (has("uspored", "razlik", "bolj")) {
+    return [
+      {
+        kind: "ai",
+        text:
+          "Mogu ti pripremiti usporedbu po cijeni, potrošnji, prostranosti i opremi. Koja 2-3 modela te najviše zanimaju, ili da ti predložim slične opcije po istom budžetu?",
+      },
+    ];
+  }
+
+  // Akcije / promocije
+  if (has("akcij", "promo", "popust", "snižen", "ponuda", "snižen")) {
+    return [
+      {
+        kind: "ai",
+        text:
+          "Trenutno imamo super akcije: 0% kamata u prvih 6 mjeseci na sve rabljene aute do 15.000 €, te ekstra povoljne uvjete na električne i hibride. Želiš da ti pokažem ponudu?",
+      },
+    ];
+  }
+
+  // Cijene / budžet
+  if (has("cijena", "košta", "koliko", "budžet", "€", "eur")) {
+    return [
+      {
+        kind: "ai",
+        text:
+          "Imamo vozila od 5.000 € do 50.000 €. Mjesečne rate kreću od 99 €. Reci mi tvoj okvirni budžet ili tip auta koji tražiš pa ću ti pokazati konkretne opcije.",
+      },
+    ];
+  }
+
+  // Kontakt / telefon
+  if (has("kontakt", "telefon", "nazov", "zovi", "broj", "showroom", "lokacij")) {
+    return [
+      {
+        kind: "ai",
+        text:
+          "Možeš nas nazvati na 01/234-5678 ili posjetiti naš showroom u Zagrebu, Vinogradska 25. Radimo pon–pet 8–20h, sub 9–14h. Da ti dogovorim termin?",
+      },
+    ];
+  }
+
+  // Pozdrav
+  if (has("bok", "zdravo", "pozdrav", "halo", "hej", "hello", "hi")) {
+    return [
+      {
+        kind: "ai",
+        text:
+          "Bok! 👋 Kako ti mogu pomoći? Mogu ti pronaći auto, objasniti lizing ili pokazati aktualne akcije.",
+      },
+    ];
+  }
+
+  // Hvala
+  if (has("hvala", "thx", "thanks")) {
+    return [
+      {
+        kind: "ai",
+        text: "Nema na čemu! 😊 Ako trebaš još nešto, samo pitaj.",
+      },
+    ];
+  }
+
+  // Default
+  return [
+    {
+      kind: "ai",
+      text:
+        "Hmm, reci mi malo više — tražiš auto, zanima te lizing, ili nešto drugo? Možeš mi npr. napisati budžet, tip vozila ili namjenu.",
+    },
+  ];
+}
+
 // ──────────────────────────────────────────────────────────────────
 // Main modal
 // ──────────────────────────────────────────────────────────────────
@@ -317,12 +492,23 @@ export default function AIChatModal() {
   const [stage, setStage] = useState<Stage>("welcome");
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  const [inputValue, setInputValue] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Reset state when reopening
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      // Cancel any pending typing response when modal closes
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+      setIsTyping(false);
+      return;
+    }
     setSelectedCar(null);
+    setInputValue("");
+    setIsTyping(false);
     if (initialQuery) {
       // User typed a question into the search bar → jump straight to recommendations
       setMessages([
@@ -341,14 +527,43 @@ export default function AIChatModal() {
     }
   }, [isOpen, initialQuery]);
 
-  // Auto-scroll to bottom when messages change
+  // Auto-focus input when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      const t = setTimeout(() => inputRef.current?.focus(), 100);
+      return () => clearTimeout(t);
+    }
+  }, [isOpen]);
+
+  // Auto-scroll to bottom when content changes
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, stage]);
+  }, [messages, stage, isTyping]);
 
   if (!isOpen) return null;
+
+  // Free-form chat: add user message, show typing, then add AI response
+  const sendMessage = (rawText: string) => {
+    const text = rawText.trim();
+    if (!text || isTyping) return;
+
+    setMessages((m) => [...m, { kind: "user", text }]);
+    setInputValue("");
+    // Hide welcome buttons and stage chips once user enters free-form chat
+    setStage("free");
+    setIsTyping(true);
+
+    // Simulate AI thinking with variable delay
+    const delay = 700 + Math.random() * 600;
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    typingTimeoutRef.current = setTimeout(() => {
+      const response = generateAIResponse(text);
+      setMessages((m) => [...m, ...response]);
+      setIsTyping(false);
+    }, delay);
+  };
 
   const handleInitialSuggestion = (id: string) => {
     if (id === "find-car") {
@@ -378,20 +593,6 @@ export default function AIChatModal() {
       ]);
       setStage("inquiry");
     }
-  };
-
-  const handleSendUserQuery = () => {
-    setMessages((m) => [
-      ...m,
-      { kind: "user", text: "Trebam obiteljski auto za grad, do 25.000 €" },
-      {
-        kind: "ai",
-        text:
-          "Super! Evo 3 provjerena gradska automobila iz naše ponude. Svi s Neostar jamstvom i pregledom u 59 točaka.",
-      },
-      { kind: "cars", intro: "Preporuke za tebe:", cars: CARS },
-    ]);
-    setStage("recommendations");
   };
 
   const handleCarClick = (car: Car) => {
@@ -493,32 +694,63 @@ export default function AIChatModal() {
             return null;
           })}
 
+          {/* Typing indicator */}
+          {isTyping && <TypingIndicator />}
+
           {/* Stage-specific actions */}
-          {stage === "inquiry" && (
+          {stage === "inquiry" && !isTyping && (
             <div className="flex gap-2 pt-1 flex-wrap">
-              <Chip label="Trebam obiteljski auto" filled onClick={handleSendUserQuery} />
-              <Chip label="Drugo" filled />
+              <Chip
+                label="Trebam obiteljski auto"
+                filled
+                onClick={() => sendMessage("Trebam obiteljski auto za grad, do 25.000 €")}
+              />
+              <Chip
+                label="Drugo"
+                filled
+                onClick={() => inputRef.current?.focus()}
+              />
             </div>
           )}
 
-          {stage === "recommendations" && (
+          {stage === "recommendations" && !isTyping && (
             <div className="flex gap-2 pt-1 flex-wrap">
-              <Chip label="Izračun rate" filled />
-              <Chip label="Probna vožnja" filled />
+              <Chip
+                label="Izračun rate"
+                filled
+                onClick={() => sendMessage("Možeš mi izračunati ratu?")}
+              />
+              <Chip
+                label="Probna vožnja"
+                filled
+                onClick={() => sendMessage("Želim probnu vožnju")}
+              />
             </div>
           )}
 
-          {stage === "car-detail" && selectedCar && (
+          {stage === "car-detail" && selectedCar && !isTyping && (
             <>
               <p className="font-bold text-[13.3px] text-black pt-2">Što te zanima za ovaj auto:</p>
               <div className="flex flex-col gap-2.5">
                 {SUGGESTIONS_CAR_DETAIL.map((s) => (
-                  <SuggestionButton key={s.id} s={s} onClick={() => { /* extend later */ }} />
+                  <SuggestionButton
+                    key={s.id}
+                    s={s}
+                    onClick={() => sendMessage(s.text)}
+                  />
                 ))}
               </div>
               <div className="flex gap-2 pt-1 flex-wrap">
-                <Chip label="Usporedi s drugima" filled />
-                <Chip label="Pozovi prodavača" filled />
+                <Chip
+                  label="Usporedi s drugima"
+                  filled
+                  onClick={() => sendMessage("Možeš li usporediti s drugim vozilima?")}
+                />
+                <Chip
+                  label="Pozovi prodavača"
+                  filled
+                  onClick={() => sendMessage("Kako mogu kontaktirati prodavača?")}
+                />
               </div>
             </>
           )}
@@ -528,13 +760,25 @@ export default function AIChatModal() {
         <div className="flex-none p-3 md:p-4 border-t border-gray-100 bg-white">
           <div className="relative flex items-center bg-[#F7F7FC] rounded-full pl-4 md:pl-5 pr-1.5 py-1.5">
             <input
+              ref={inputRef}
               type="text"
-              placeholder="Napiši poruku..."
-              className="flex-1 bg-transparent outline-none text-[14px] text-[#212529] placeholder-[#5F6D7A] py-2"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  sendMessage(inputValue);
+                }
+              }}
+              disabled={isTyping}
+              placeholder={isTyping ? "AI piše..." : "Napiši poruku..."}
+              className="flex-1 bg-transparent outline-none text-[14px] text-[#212529] placeholder-[#5F6D7A] py-2 disabled:opacity-60"
             />
             <button
               aria-label="Pošalji"
-              className="flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full flex-none hover:opacity-90 transition-opacity"
+              onClick={() => sendMessage(inputValue)}
+              disabled={!inputValue.trim() || isTyping}
+              className="flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full flex-none hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
               style={{ backgroundColor: "#00CCFF" }}
             >
               <svg
