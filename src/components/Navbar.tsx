@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { img } from "@/lib/img";
 import AISearchBar from "@/components/AISearchBar";
 
@@ -12,9 +13,9 @@ export default function Navbar() {
       <div className="max-w-[1320px] mx-auto px-6 lg:px-3 py-4 flex items-center gap-3">
 
         {/* Logo */}
-        <a href="/" className="flex-none">
+        <Link href="/" className="flex-none" aria-label="Početna">
           <img src={img("/images/neostar-logo.svg")} alt="NEOSTAR" className="h-5 w-auto" />
-        </a>
+        </Link>
 
         {/* Mobile only: AI search bar inline */}
         <div className="lg:hidden flex-1 min-w-0">
