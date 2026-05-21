@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+
 const makes = [
   ["Alfa Romeo", "Audi", "BMW", "Chevrolet", "Citroën", "Dacia", "DS"],
   ["Fiat", "Ford", "Honda", "Hyundai", "Jaguar", "Jeep", "Kia"],
@@ -24,9 +28,13 @@ export default function SearchBrowse() {
           {makes.map((row, i) => (
             <div key={i} className="flex flex-wrap gap-x-10 gap-y-2 mb-3">
               {row.map((make) => (
-                <a key={make} href="#" className="text-sm text-black hover:underline whitespace-nowrap">
+                <Link
+                  key={make}
+                  href={`/vozila?marka=${encodeURIComponent(make)}`}
+                  className="text-sm text-black hover:underline hover:text-[#01A5CE] whitespace-nowrap transition-colors"
+                >
                   {make}
-                </a>
+                </Link>
               ))}
             </div>
           ))}
@@ -36,11 +44,19 @@ export default function SearchBrowse() {
           Pretraži po godini proizvodnje
         </h2>
         <div className="flex flex-wrap gap-x-10 gap-y-2">
-          {years.map((year) => (
-            <a key={year} href="#" className="text-sm text-black hover:underline whitespace-nowrap">
-              {year}
-            </a>
-          ))}
+          {years.map((year) => {
+            // Extract year number from "2020." or "do 2008."
+            const yearNum = year.replace(/[^\d]/g, "");
+            return (
+              <Link
+                key={year}
+                href={`/vozila?godiste=${yearNum}`}
+                className="text-sm text-black hover:underline hover:text-[#01A5CE] whitespace-nowrap transition-colors"
+              >
+                {year}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

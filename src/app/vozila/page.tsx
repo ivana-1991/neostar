@@ -1,11 +1,13 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useMemo, useState, Fragment } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FilterDropdown from "@/components/FilterDropdown";
+import SearchBrowse from "@/components/SearchBrowse";
 import { img } from "@/lib/img";
+import { useAIChat } from "@/lib/aiChatContext";
 import {
   CAR_BRANDS,
   CAR_YEARS,
@@ -18,39 +20,67 @@ import { ALL_CARS } from "@/lib/cars";
 const brandOptions = CAR_BRANDS.map((b) => ({ label: b, value: b }));
 const yearOptions = CAR_YEARS.map((y) => ({ label: y, value: y }));
 
+const SORT_OPTIONS = [
+  { label: "Najnoviji", value: "newest" },
+  { label: "Najjeftiniji", value: "price-asc" },
+  { label: "Najskuplji", value: "price-desc" },
+  { label: "Najmanje km", value: "km-asc" },
+];
+
+const PAGE_SIZE = 12;
+
+const num = (s: string) => parseInt(s.replace(/[^\d]/g, ""), 10) || 0;
+
 function VozilaContent() {
   const sp = useSearchParams();
   const router = useRouter();
+  const { open: openChat } = useAIChat();
 
   const [marka, setMarka] = useState(sp.get("marka") || "");
   const [model, setModel] = useState(sp.get("model") || "");
   const [godiste, setGodiste] = useState(sp.get("godiste") || "");
   const [km, setKm] = useState(sp.get("km") || "");
   const [cijena, setCijena] = useState(sp.get("cijena") || "");
+  const [sort, setSort] = useState("newest");
+  const [page, setPage] = useState(1);
 
   const modelOptions = marka && MODELS_BY_BRAND[marka]
     ? MODELS_BY_BRAND[marka].map((m) => ({ label: m, value: m }))
     : [];
 
-  // Apply filters
+  // Apply filters then sort
   const filteredCars = useMemo(() => {
-    return ALL_CARS.filter((c) => {
+    const filtered = ALL_CARS.filter((c) => {
       if (marka && c.brand !== marka) return false;
       if (model && !c.name.toLowerCase().includes(model.toLowerCase())) return false;
       if (godiste && !c.year.startsWith(godiste)) return false;
       if (km) {
         const max = parseInt(km, 10);
-        const kmNum = parseInt(c.km.replace(/[^\d]/g, ""), 10);
+        const kmNum = num(c.km);
         if (max === 200001 ? kmNum < 200000 : kmNum > max) return false;
       }
       if (cijena) {
         const max = parseInt(cijena, 10);
-        const priceNum = parseInt(c.price.replace(/[^\d]/g, ""), 10);
+        const priceNum = num(c.price);
         if (max === 50001 ? priceNum < 50000 : priceNum > max) return false;
       }
       return true;
     });
-  }, [marka, model, godiste, km, cijena]);
+
+    const sorted = [...filtered];
+    if (sort === "price-asc") sorted.sort((a, b) => num(a.price) - num(b.price));
+    else if (sort === "price-desc") sorted.sort((a, b) => num(b.price) - num(a.price));
+    else if (sort === "km-asc") sorted.sort((a, b) => num(a.km) - num(b.km));
+    else sorted.sort((a, b) => num(b.year) - num(a.year));
+    return sorted;
+  }, [marka, model, godiste, km, cijena, sort]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredCars.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const visibleCars = filteredCars.slice(
+    (safePage - 1) * PAGE_SIZE,
+    safePage * PAGE_SIZE,
+  );
 
   const updateUrl = (next: Record<string, string>) => {
     const params = new URLSearchParams();
@@ -60,6 +90,7 @@ function VozilaContent() {
     });
     const qs = params.toString();
     router.replace(`/vozila${qs ? `?${qs}` : ""}`, { scroll: false });
+    setPage(1);
   };
 
   const reset = () => {
@@ -68,17 +99,38 @@ function VozilaContent() {
     setGodiste("");
     setKm("");
     setCijena("");
+    setPage(1);
     router.replace("/vozila", { scroll: false });
   };
+
+  const hasAnyFilter = !!(marka || model || godiste || km || cijena);
 
   return (
     <>
       <Navbar />
       <main className="pt-[72px] min-h-screen bg-[#FAFBFC]">
         <div className="max-w-[1320px] mx-auto px-3 py-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-black mb-6">
-            Pretraga vozila
-          </h1>
+          {/* Hero/intro */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl md:text-[40px] font-bold text-black mb-3 leading-tight">
+              Prodaja automobila s jamstvom
+              <br />
+              <span className="text-[#01A5CE]">Novi ili rabljeni</span> - ti biraš!
+            </h1>
+            <button
+              type="button"
+              onClick={() => openChat()}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm text-white hover:opacity-90 transition-opacity"
+              style={{
+                background: "linear-gradient(to right, #00CCFF 4.97%, #80CEAA 94.75%)",
+              }}
+            >
+              Pomoć AI savjetnika
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
 
           {/* Filter bar */}
           <div
@@ -148,7 +200,7 @@ function VozilaContent() {
                 />
               </div>
             </div>
-            {(marka || model || godiste || km || cijena) && (
+            {hasAnyFilter && (
               <div className="pt-3 px-2">
                 <button
                   type="button"
@@ -161,15 +213,27 @@ function VozilaContent() {
             )}
           </div>
 
-          {/* Results count */}
-          <div className="flex items-center justify-between mb-4 px-1">
+          {/* Result count + sort */}
+          <div className="flex items-center justify-between mb-4 px-1 gap-3 flex-wrap">
             <p className="text-sm text-[#5F6D7A]">
               <span className="font-bold text-black">{filteredCars.length}</span>{" "}
-              {filteredCars.length === 1 ? "vozilo" : "vozila"} pronađeno
+              {filteredCars.length === 1 ? "rezultat" : "rezultata"}
             </p>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-[#5F6D7A]">Sortiraj:</span>
+              <div className="w-[180px]">
+                <FilterDropdown
+                  label="Sort"
+                  value={sort}
+                  options={SORT_OPTIONS}
+                  onChange={(v) => setSort(v || "newest")}
+                  placeholder="Najnoviji"
+                />
+              </div>
+            </div>
           </div>
 
-          {/* Car grid */}
+          {/* Car grid (with AI banner inserted in middle) */}
           {filteredCars.length === 0 ? (
             <div className="bg-white rounded-lg p-12 text-center">
               <p className="text-lg text-[#5F6D7A] mb-2">
@@ -184,47 +248,124 @@ function VozilaContent() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredCars.map((car) => (
-                <article
-                  key={car.id}
-                  className="bg-white rounded-xl overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
-                  style={{ border: "1px solid rgba(0,0,0,0.06)" }}
-                >
-                  <div className="aspect-[16/10] bg-gray-50 relative overflow-hidden">
-                    <img
-                      src={img(car.image)}
-                      alt={car.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-4 flex-1 flex flex-col gap-2">
-                    <h3 className="text-lg font-bold text-black">{car.name}</h3>
-                    <p className="text-xs text-[#5F6D7A]">
-                      {car.year} · {car.km} · {car.location}
-                    </p>
-                    <div className="flex gap-1.5 flex-wrap pt-1">
-                      {[car.fuel, car.transmission, car.power].map((spec) => (
-                        <span
-                          key={spec}
-                          className="text-[11px] text-[#5F6D7A] bg-[#F7F7FC] px-2 py-0.5 rounded"
-                        >
-                          {spec}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {visibleCars.map((car, idx) => (
+                <Fragment key={car.id}>
+                  <article
+                    className="bg-white rounded-xl overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
+                    style={{ border: "1px solid rgba(0,0,0,0.06)" }}
+                  >
+                    <div className="aspect-[16/10] bg-gray-50 relative overflow-hidden">
+                      <img
+                        src={img(car.image)}
+                        alt={car.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="p-3 flex-1 flex flex-col gap-1.5">
+                      <h3 className="text-[15px] font-bold text-black">{car.name}</h3>
+                      <p className="text-[11px] text-[#5F6D7A]">
+                        {car.year} · {car.km} · {car.location}
+                      </p>
+                      <div className="flex gap-1 flex-wrap pt-1">
+                        {[car.fuel, car.transmission, car.power].map((spec) => (
+                          <span
+                            key={spec}
+                            className="text-[10px] text-[#5F6D7A] bg-[#F7F7FC] px-1.5 py-0.5 rounded"
+                          >
+                            {spec}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="border-t border-gray-100 pt-2 mt-auto flex items-center justify-between">
+                        <span className="text-base font-bold text-black">{car.price}</span>
+                        <span className="text-[10px] text-[#00CCFF] font-bold">
+                          {car.monthly}
                         </span>
-                      ))}
+                      </div>
                     </div>
-                    <div className="border-t border-gray-100 pt-3 mt-auto flex items-center justify-between">
-                      <span className="text-xl font-bold text-black">{car.price}</span>
-                      <span className="text-xs text-[#00CCFF] font-bold">
-                        {car.monthly}
+                  </article>
+
+                  {/* Insert AI banner after 4th card (only on first page) */}
+                  {safePage === 1 && idx === 3 && visibleCars.length > 4 && (
+                    <button
+                      type="button"
+                      onClick={() => openChat()}
+                      className="sm:col-span-2 lg:col-span-4 rounded-xl p-5 md:p-6 flex flex-col md:flex-row items-center md:items-center gap-4 md:gap-6 text-left hover:brightness-[1.02] transition-all"
+                      style={{
+                        background: "linear-gradient(180deg, #00CCFF 25.93%, #F9FFFC 99.91%)",
+                      }}
+                    >
+                      <div
+                        className="flex items-center justify-center rounded-full w-14 h-14 flex-none"
+                        style={{ backgroundColor: "rgba(255,255,255,0.6)" }}
+                      >
+                        <img src={img("/images/icon-sparkle.svg")} alt="" className="w-7 h-7" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-lg md:text-xl font-bold text-[#212529] mb-1">
+                          Tvoj auto. Tvoj savjetnik.
+                        </p>
+                        <p className="text-sm text-[#212529]">
+                          Pomažemo ti pronaći idealan auto — uz AI savjetnika koji je tu 24/7.
+                        </p>
+                      </div>
+                      <span
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm text-[#212529] bg-white whitespace-nowrap flex-none"
+                      >
+                        Pitaj me
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
                       </span>
-                    </div>
-                  </div>
-                </article>
+                    </button>
+                  )}
+                </Fragment>
               ))}
             </div>
           )}
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-1 mt-8">
+              <button
+                type="button"
+                onClick={() => setPage(Math.max(1, safePage - 1))}
+                disabled={safePage === 1}
+                className="w-9 h-9 flex items-center justify-center rounded-md text-sm text-[#5F6D7A] hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                ‹
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => {
+                    setPage(p);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className={`min-w-[36px] h-9 flex items-center justify-center rounded-md text-sm transition-colors ${
+                    p === safePage
+                      ? "bg-[#00CCFF] text-white font-bold"
+                      : "text-[#5F6D7A] hover:bg-white"
+                  }`}
+                >
+                  {p}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => setPage(Math.min(totalPages, safePage + 1))}
+                disabled={safePage === totalPages}
+                className="w-9 h-9 flex items-center justify-center rounded-md text-sm text-[#5F6D7A] hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                ›
+              </button>
+            </div>
+          )}
         </div>
+
+        <SearchBrowse />
       </main>
       <Footer />
     </>
