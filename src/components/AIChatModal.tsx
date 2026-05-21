@@ -49,17 +49,17 @@ export default function AIChatModal() {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-3 md:p-6"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6"
       style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
       onClick={close}
     >
       <div
-        className="bg-white w-full max-w-[750px] max-h-[90vh] rounded-2xl overflow-hidden flex flex-col shadow-2xl"
+        className="bg-white w-full max-w-[750px] max-h-[85vh] md:max-h-[90vh] rounded-2xl overflow-hidden flex flex-col shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div
-          className="flex items-center justify-between px-5 py-4 flex-none"
+          className="flex items-center justify-between px-4 md:px-5 py-3.5 md:py-4 flex-none"
           style={{ backgroundColor: "#00CCFF" }}
         >
           <div className="flex items-center gap-2.5">
@@ -73,16 +73,17 @@ export default function AIChatModal() {
                 className="w-5 h-5"
               />
             </div>
-            <p className="font-bold text-base text-white leading-6">
+            <p className="font-bold text-[15px] md:text-base text-white leading-6">
               AI prodajni savjetnik
             </p>
           </div>
           <button
             onClick={close}
             aria-label="Zatvori"
-            className="text-white hover:opacity-70 transition-opacity p-1"
+            className="flex items-center justify-center w-8 h-8 rounded-full text-white hover:opacity-80 transition-opacity"
+            style={{ backgroundColor: "rgba(255,255,255,0.25)" }}
           >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -116,16 +117,16 @@ export default function AIChatModal() {
             {SUGGESTIONS.map((s) => (
               <button
                 key={s.text}
-                className="flex items-center gap-3 px-4 py-3.5 bg-white rounded-xl border hover:bg-gray-50 transition-colors text-left"
+                className="flex items-center gap-3 px-3.5 md:px-4 py-3 md:py-3.5 bg-white rounded-xl border hover:bg-gray-50 transition-colors text-left"
                 style={{ borderColor: s.borderColor, color: s.textColor }}
               >
                 <span className="flex-none" style={{ color: s.textColor }}>
                   {s.icon}
                 </span>
-                <span className="flex-1 text-[14px] font-medium" style={{ color: s.textColor }}>
+                <span className="flex-1 text-[13.5px] md:text-[14px] font-medium" style={{ color: s.textColor }}>
                   {s.text}
                 </span>
-                <span className="flex-none text-[18px] leading-none" style={{ color: s.textColor }}>
+                <span className="hidden md:inline-block flex-none text-[18px] leading-none" style={{ color: s.textColor }}>
                   →
                 </span>
               </button>
@@ -134,8 +135,8 @@ export default function AIChatModal() {
         </div>
 
         {/* Footer – input */}
-        <div className="flex-none p-4 border-t border-gray-100 bg-white">
-          <div className="relative flex items-center bg-[#F7F7FC] rounded-full pl-5 pr-1.5 py-1.5">
+        <div className="flex-none p-3 md:p-4 border-t border-gray-100 bg-white">
+          <div className="relative flex items-center bg-[#F7F7FC] rounded-full pl-4 md:pl-5 pr-1.5 py-1.5">
             <input
               type="text"
               placeholder="Napiši poruku..."
@@ -143,11 +144,13 @@ export default function AIChatModal() {
             />
             <button
               aria-label="Pošalji"
-              className="flex items-center justify-center w-11 h-11 rounded-full flex-none hover:opacity-90 transition-opacity"
+              className="flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full flex-none hover:opacity-90 transition-opacity"
               style={{ backgroundColor: "#00CCFF" }}
             >
-              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+              {/* Arrow up icon */}
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="19" x2="12" y2="5" />
+                <polyline points="5 12 12 5 19 12" />
               </svg>
             </button>
           </div>
