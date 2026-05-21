@@ -1,11 +1,12 @@
 "use client";
 
-import { Suspense, useMemo, useState, Fragment } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FilterDropdown from "@/components/FilterDropdown";
 import SearchBrowse from "@/components/SearchBrowse";
+import AIBanner from "@/components/AIBanner";
 import { img } from "@/lib/img";
 import { useAIChat } from "@/lib/aiChatContext";
 import {
@@ -233,7 +234,7 @@ function VozilaContent() {
             </div>
           </div>
 
-          {/* Car grid (with AI banner inserted in middle) */}
+          {/* Car grid (with full AI banner inserted between rows on page 1) */}
           {filteredCars.length === 0 ? (
             <div className="bg-white rounded-lg p-12 text-center">
               <p className="text-lg text-[#5F6D7A] mb-2">
@@ -247,11 +248,18 @@ function VozilaContent() {
                 Obriši filtere
               </button>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {visibleCars.map((car, idx) => (
-                <Fragment key={car.id}>
+          ) : (() => {
+            // On page 1 with enough cars, split the grid around the AI banner.
+            // Otherwise render a single grid.
+            const showSplitBanner = safePage === 1 && visibleCars.length > 4;
+            const firstBatch = showSplitBanner ? visibleCars.slice(0, 4) : visibleCars;
+            const secondBatch = showSplitBanner ? visibleCars.slice(4) : [];
+
+            const renderCarGrid = (cars: typeof visibleCars) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {cars.map((car) => (
                   <article
+                    key={car.id}
                     className="bg-white rounded-xl overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
                     style={{ border: "1px solid rgba(0,0,0,0.06)" }}
                   >
@@ -285,45 +293,22 @@ function VozilaContent() {
                       </div>
                     </div>
                   </article>
+                ))}
+              </div>
+            );
 
-                  {/* Insert AI banner after 4th card (only on first page) */}
-                  {safePage === 1 && idx === 3 && visibleCars.length > 4 && (
-                    <button
-                      type="button"
-                      onClick={() => openChat()}
-                      className="sm:col-span-2 lg:col-span-4 rounded-xl p-5 md:p-6 flex flex-col md:flex-row items-center md:items-center gap-4 md:gap-6 text-left hover:brightness-[1.02] transition-all"
-                      style={{
-                        background: "linear-gradient(180deg, #00CCFF 25.93%, #F9FFFC 99.91%)",
-                      }}
-                    >
-                      <div
-                        className="flex items-center justify-center rounded-full w-14 h-14 flex-none"
-                        style={{ backgroundColor: "rgba(255,255,255,0.6)" }}
-                      >
-                        <img src={img("/images/icon-sparkle.svg")} alt="" className="w-7 h-7" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-lg md:text-xl font-bold text-[#212529] mb-1">
-                          Tvoj auto. Tvoj savjetnik.
-                        </p>
-                        <p className="text-sm text-[#212529]">
-                          Pomažemo ti pronaći idealan auto — uz AI savjetnika koji je tu 24/7.
-                        </p>
-                      </div>
-                      <span
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm text-[#212529] bg-white whitespace-nowrap flex-none"
-                      >
-                        Pitaj me
-                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                      </span>
-                    </button>
-                  )}
-                </Fragment>
-              ))}
-            </div>
-          )}
+            return (
+              <>
+                {renderCarGrid(firstBatch)}
+                {showSplitBanner && (
+                  <div className="my-6 -mx-3">
+                    <AIBanner />
+                  </div>
+                )}
+                {secondBatch.length > 0 && renderCarGrid(secondBatch)}
+              </>
+            );
+          })()}
 
           {/* Pagination */}
           {totalPages > 1 && (
