@@ -19,7 +19,7 @@ type Car = {
   power: string;
   price: string;
   monthly: string;
-  bg: string; // placeholder thumbnail gradient
+  image: string;
 };
 
 type Message =
@@ -46,7 +46,7 @@ const CARS: Car[] = [
     power: "51 KS",
     price: "9.800 €",
     monthly: "od 105 €/mj",
-    bg: "linear-gradient(135deg, #FFE0E6, #FFB8C1)",
+    image: "/images/car-fiat-500.jpg",
   },
   {
     id: "vw-polo",
@@ -59,7 +59,7 @@ const CARS: Car[] = [
     power: "70 KS",
     price: "13.900 €",
     monthly: "od 149 €/mj",
-    bg: "linear-gradient(135deg, #DCEEFF, #A5C8EF)",
+    image: "/images/car-vw-polo.jpg",
   },
   {
     id: "opel-corsa",
@@ -72,7 +72,7 @@ const CARS: Car[] = [
     power: "55 KS",
     price: "12.700 €",
     monthly: "od 137 €/mj",
-    bg: "linear-gradient(135deg, #E8E8E8, #B8B8B8)",
+    image: "/images/car-opel-corsa.jpg",
   },
 ];
 
@@ -207,15 +207,26 @@ function Chip({
   filled?: boolean;
   onClick?: () => void;
 }) {
+  if (filled) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className="px-3.5 py-2 rounded-full text-[13px] font-bold text-white whitespace-nowrap hover:opacity-90 transition-opacity"
+        style={{
+          background: "linear-gradient(102deg, #00CCFF 6.85%, #80CEAA 95.45%)",
+          border: "1px solid #7FE5FF",
+        }}
+      >
+        {label}
+      </button>
+    );
+  }
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`px-3.5 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap transition-colors ${
-        filled
-          ? "bg-[#00CCFF] text-white hover:bg-[#00B8E6]"
-          : "border border-[#00CCFF] text-[#01A5CE] hover:bg-[#ECFCFF]"
-      }`}
+      className="px-3.5 py-2 rounded-full text-[13px] font-medium text-[#01A5CE] whitespace-nowrap border border-[#00CCFF] hover:bg-[#ECFCFF] transition-colors"
     >
       {label}
     </button>
@@ -227,34 +238,38 @@ function CarCard({ car, onClick }: { car: Car; onClick?: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="w-full bg-white rounded-xl border border-gray-200 p-3 flex gap-3 hover:border-[#00CCFF] hover:shadow-sm transition-all text-left"
+      className="w-full bg-white rounded-xl p-3 flex gap-3 hover:shadow-sm transition-all text-left"
+      style={{ border: "1px solid rgba(0,204,255,0.3)" }}
     >
-      <div
-        className="w-[84px] h-[76px] flex-none rounded-lg flex items-center justify-center"
-        style={{ background: car.bg }}
-      >
-        <svg className="w-12 h-8 text-gray-700/60" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M5 11l1.5-4.5h11L19 11M17.5 16a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0M9.5 16a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0M19 11v6h-1.5a3 3 0 00-6 0H12a3 3 0 00-6 0H4.5v-6L7 5h10l2 6z" />
-        </svg>
+      <div className="w-[84px] h-[76px] flex-none rounded-lg overflow-hidden relative">
+        <div
+          className="absolute inset-0 rounded-lg pointer-events-none"
+          style={{ backgroundColor: "rgba(0,204,255,0.12)" }}
+        />
+        <img
+          src={img(car.image)}
+          alt={car.name}
+          className="w-full h-full object-cover rounded-lg"
+        />
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-1">
         <p className="text-[14px] font-bold text-[#212529] leading-tight">{car.name}</p>
-        <p className="text-[12px] text-[#5F6D7A] leading-tight">
+        <p className="text-[11px] text-[#5F6D7A] leading-tight">
           {car.year} · {car.km} · {car.location}
         </p>
-        <div className="flex gap-1.5 flex-wrap">
+        <div className="flex gap-1.5 flex-wrap pt-0.5">
           {[car.fuel, car.transmission, car.power].map((spec) => (
             <span
               key={spec}
-              className="text-[11px] text-[#5F6D7A] bg-[#F7F7FC] px-1.5 py-0.5 rounded"
+              className="text-[10px] text-[#5F6D7A] bg-[#F7F7FC] px-1.5 py-0.5 rounded"
             >
               {spec}
             </span>
           ))}
         </div>
-        <div className="border-t border-gray-100 pt-1.5 flex items-center justify-between">
-          <span className="text-[14px] font-bold text-[#212529]">{car.price}</span>
-          <span className="text-[12px] text-[#01A5CE] font-medium">{car.monthly}</span>
+        <div className="border-t border-gray-100 pt-1.5 mt-0.5 flex items-center justify-between">
+          <span className="text-[15px] font-bold text-[#212529]">{car.price}</span>
+          <span className="text-[11px] text-[#00CCFF] font-bold">{car.monthly}</span>
         </div>
       </div>
     </button>
@@ -481,14 +496,14 @@ export default function AIChatModal() {
           {stage === "inquiry" && (
             <div className="flex gap-2 pt-1 flex-wrap">
               <Chip label="Trebam obiteljski auto" filled onClick={handleSendUserQuery} />
-              <Chip label="Drugo" />
+              <Chip label="Drugo" filled />
             </div>
           )}
 
           {stage === "recommendations" && (
             <div className="flex gap-2 pt-1 flex-wrap">
               <Chip label="Izračun rate" filled />
-              <Chip label="Probna vožnja" />
+              <Chip label="Probna vožnja" filled />
             </div>
           )}
 
@@ -502,7 +517,7 @@ export default function AIChatModal() {
               </div>
               <div className="flex gap-2 pt-1 flex-wrap">
                 <Chip label="Usporedi s drugima" filled />
-                <Chip label="Pozovi prodavača" />
+                <Chip label="Pozovi prodavača" filled />
               </div>
             </>
           )}
