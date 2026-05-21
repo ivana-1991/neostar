@@ -76,9 +76,7 @@ export default function Navbar() {
           className="hidden lg:flex items-center justify-center rounded-[4px] px-1 py-[3px]"
           style={{ backgroundColor: "#ECFCFF" }}
         >
-          <svg className="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
+          <img src={img("/images/icon-user.svg")} alt="Account" className="w-6 h-6" />
         </div>
 
         {/* Mobile: hamburger with #ECFCFF background */}
