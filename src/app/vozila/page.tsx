@@ -2,6 +2,7 @@
 
 import { Suspense, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FilterDropdown from "@/components/FilterDropdown";
@@ -258,8 +259,9 @@ function VozilaContent() {
             const renderCarGrid = (cars: typeof visibleCars) => (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {cars.map((car) => (
-                  <article
+                  <Link
                     key={car.id}
+                    href={`/vozila/${car.id}`}
                     className="bg-white rounded-xl overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
                     style={{ border: "1px solid rgba(0,0,0,0.06)" }}
                   >
@@ -292,7 +294,7 @@ function VozilaContent() {
                         </span>
                       </div>
                     </div>
-                  </article>
+                  </Link>
                 ))}
               </div>
             );
