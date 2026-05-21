@@ -41,7 +41,7 @@ export default function Hero() {
             {/* Gradient CTA */}
             <button
               type="button"
-              onClick={open}
+              onClick={() => open()}
               className="inline-flex items-center gap-2.5 px-4 py-3 rounded-lg font-bold text-sm text-white cursor-pointer hover:opacity-90 transition-opacity"
               style={{
                 background: "linear-gradient(to right, #00CCFF 4.97%, #80CEAA 94.75%)",

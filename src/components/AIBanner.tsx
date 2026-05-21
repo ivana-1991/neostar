@@ -15,7 +15,7 @@ export default function AIBanner() {
     <section className="py-8 md:py-12">
       <div className="max-w-[1320px] mx-auto px-3">
         <div
-          onClick={open}
+          onClick={() => open()}
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
