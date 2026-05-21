@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AIChatProvider } from "@/lib/aiChatContext";
+import AIChatModal from "@/components/AIChatModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +29,12 @@ export default function RootLayout({
       lang="hr"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body>{children}</body>
+      <body>
+        <AIChatProvider>
+          {children}
+          <AIChatModal />
+        </AIChatProvider>
+      </body>
     </html>
   );
 }

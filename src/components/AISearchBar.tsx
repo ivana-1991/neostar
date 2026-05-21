@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { img } from "@/lib/img";
+import { useAIChat } from "@/lib/aiChatContext";
 
 const PROMPTS = [
   "Pitaj me ...",
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export default function AISearchBar({ className = "", innerClassName = "" }: Props) {
+  const { open } = useAIChat();
   const [promptIndex, setPromptIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [phase, setPhase] = useState<"typing" | "holdFull" | "deleting" | "holdEmpty">("typing");
@@ -58,14 +60,17 @@ export default function AISearchBar({ className = "", innerClassName = "" }: Pro
   }, [displayed, phase, promptIndex]);
 
   return (
-    <div
-      className={`relative rounded-lg p-[1px] ${className}`}
+    <button
+      type="button"
+      onClick={open}
+      className={`relative rounded-lg p-[1px] block w-full text-left cursor-pointer ${className}`}
       style={{
         background: "linear-gradient(to right, #00CCFF 4.97%, #80CEAA 94.75%)",
       }}
+      aria-label="Otvori AI savjetnika"
     >
       <div
-        className={`flex items-center gap-2 px-4 md:px-6 py-1.5 rounded-[7px] cursor-text ${innerClassName}`}
+        className={`flex items-center gap-2 px-4 md:px-6 py-1.5 rounded-[7px] ${innerClassName}`}
         style={{ backgroundColor: "#ECFCFF" }}
       >
         <img
@@ -78,6 +83,6 @@ export default function AISearchBar({ className = "", innerClassName = "" }: Pro
           <span className="inline-block w-[1px] h-[14px] align-middle ml-0.5 bg-[#222] animate-[blink_1s_steps(2,start)_infinite]" />
         </span>
       </div>
-    </div>
+    </button>
   );
 }

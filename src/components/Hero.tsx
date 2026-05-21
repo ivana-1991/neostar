@@ -1,4 +1,7 @@
+"use client";
+
 import { img } from "@/lib/img";
+import { useAIChat } from "@/lib/aiChatContext";
 
 const carTypes = [
   { label: "Gradski", icon: "/images/icon-gradski.png" },
@@ -17,6 +20,7 @@ const carTypes = [
 const filters = ["Marka", "Model", "Godište", "Kilometraža", "Cijena"];
 
 export default function Hero() {
+  const { open } = useAIChat();
   return (
     <section className="bg-white pt-[72px]">
       <div className="max-w-[1320px] mx-auto px-3">
@@ -35,9 +39,10 @@ export default function Hero() {
             </h1>
 
             {/* Gradient CTA */}
-            <a
-              href="#"
-              className="inline-flex items-center gap-2.5 px-4 py-3 rounded-lg font-bold text-sm text-white"
+            <button
+              type="button"
+              onClick={open}
+              className="inline-flex items-center gap-2.5 px-4 py-3 rounded-lg font-bold text-sm text-white cursor-pointer hover:opacity-90 transition-opacity"
               style={{
                 background: "linear-gradient(to right, #00CCFF 4.97%, #80CEAA 94.75%)",
               }}
@@ -46,7 +51,7 @@ export default function Hero() {
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
-            </a>
+            </button>
           </div>
 
           {/* Showroom illustration — top on mobile, right on desktop */}

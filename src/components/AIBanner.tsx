@@ -1,6 +1,10 @@
+"use client";
+
 import { img } from "@/lib/img";
+import { useAIChat } from "@/lib/aiChatContext";
 
 export default function AIBanner() {
+  const { open } = useAIChat();
   const benefits = [
     "Preporuke modela koji ti odgovaraju",
     "Sve opcije lizinga i kreditiranja",
@@ -11,7 +15,16 @@ export default function AIBanner() {
     <section className="py-8 md:py-12">
       <div className="max-w-[1320px] mx-auto px-3">
         <div
-          className="rounded-lg overflow-hidden p-6 md:p-8 flex flex-col md:flex-row items-stretch md:items-center gap-6 md:gap-8"
+          onClick={open}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              open();
+            }
+          }}
+          className="rounded-lg overflow-hidden p-6 md:p-8 flex flex-col md:flex-row items-stretch md:items-center gap-6 md:gap-8 cursor-pointer hover:brightness-[1.02] transition-all"
           style={{
             background: "linear-gradient(180deg, #00CCFF 25.93%, #F9FFFC 99.91%)",
           }}
@@ -101,12 +114,16 @@ export default function AIBanner() {
 
             {/* CTA */}
             <div className="flex pt-2">
-              <a
-                href="#"
-                className="border border-[#212529] rounded-md px-6 py-2 text-[15px] text-[#212529] hover:bg-[#212529] hover:text-white transition-colors"
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  open();
+                }}
+                className="border border-[#212529] rounded-md px-6 py-2 text-[15px] text-[#212529] hover:bg-[#212529] hover:text-white transition-colors cursor-pointer"
               >
                 Pronađi svoj auto
-              </a>
+              </button>
             </div>
 
             {/* Online indicator */}
