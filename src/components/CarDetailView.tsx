@@ -13,7 +13,87 @@ type Props = {
   related: Car[];
 };
 
-function SpecIcon({
+// ──────────────────────────────────────────────────────────────────
+// Spec icons
+// ──────────────────────────────────────────────────────────────────
+
+const ICON_CLS = "w-5 h-5 text-[#00CCFF] flex-none";
+
+const Icons = {
+  location: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path d="M12 22s8-8 8-13a8 8 0 0 0-16 0c0 5 8 13 8 13z" />
+      <circle cx="12" cy="9" r="3" />
+    </svg>
+  ),
+  year: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M16 3v4M8 3v4M3 11h18" />
+    </svg>
+  ),
+  km: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path d="M12 2a10 10 0 0 0-10 10v3h20v-3A10 10 0 0 0 12 2z" />
+      <path d="M12 15l4-6" />
+      <circle cx="12" cy="15" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+  fuel: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16" />
+      <path d="M4 21h10M14 9h2a2 2 0 0 1 2 2v6a2 2 0 0 0 2 2v0" />
+    </svg>
+  ),
+  power: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M13 2L4 14h7l-1 8 9-12h-7z" />
+    </svg>
+  ),
+  transmission: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <circle cx="6" cy="12" r="2" />
+      <path d="M6 14v4M6 10V6M12 8v8M18 8v8M18 6h-6M18 18h-6" />
+    </svg>
+  ),
+  registered: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M3 9h18M9 13h6M9 17h4" />
+    </svg>
+  ),
+  doors: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path d="M5 21V5a2 2 0 0 1 2-2h7l5 5v13" />
+      <circle cx="15" cy="13" r="0.8" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+  seats: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <circle cx="12" cy="7" r="3" />
+      <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+    </svg>
+  ),
+  co2: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path d="M3 12c2-3 5-5 9-5s7 2 9 5c-2 3-5 5-9 5s-7-2-9-5z" />
+      <path d="M9 12c.5 1 2 2 3 2s2.5-1 3-2" />
+    </svg>
+  ),
+  euro: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M14 9.5c-.5-.5-1.2-.8-2-.8-2 0-3.5 1.5-3.5 3.3s1.5 3.3 3.5 3.3c.8 0 1.5-.3 2-.8M7 11h5M7 13h5" />
+    </svg>
+  ),
+  color: (
+    <svg className={ICON_CLS} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path d="M12 22a10 10 0 0 0 10-10c0-4.5-3.5-8-8-8a4 4 0 0 0-4 4c0 1 .5 2 1 2.5s-.5 1-2.5 1c-3 0-4.5 2-4.5 4 0 4 4 6.5 8 6.5z" />
+    </svg>
+  ),
+};
+
+function SpecItem({
   label,
   value,
   icon,
@@ -23,32 +103,73 @@ function SpecIcon({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-3 px-4 py-3 bg-white rounded-lg" style={{ border: "1px solid rgba(0,0,0,0.06)" }}>
-      <span className="text-[#01A5CE] flex-none">{icon}</span>
-      <div className="flex flex-col">
-        <span className="text-[11px] text-[#5F6D7A] leading-tight">{label}</span>
-        <span className="text-sm font-bold text-black leading-tight">{value}</span>
+    <div className="flex items-start gap-2.5">
+      <span className="pt-0.5">{icon}</span>
+      <div className="flex flex-col leading-tight">
+        <span className="text-[11px] text-[#5F6D7A]">{label}</span>
+        <span className="text-sm font-bold text-black">{value}</span>
       </div>
     </div>
   );
 }
 
+// ──────────────────────────────────────────────────────────────────
+// Helpers
+// ──────────────────────────────────────────────────────────────────
+
+function formatPrice(price: string) {
+  // "13.900 €" → "13.900,00 €"
+  return price.replace(/\s?€$/, ",00 €");
+}
+
+function deriveSpecs(car: Car) {
+  // Derive Croatian-style display values, filling in plausible defaults
+  // for fields we don't track in the mock data.
+  const ksMatch = car.power.match(/(\d+)/);
+  const ks = ksMatch ? parseInt(ksMatch[1], 10) : 0;
+  const kw = Math.round(ks / 1.36);
+
+  const yearNum = parseInt(car.year, 10) || 2020;
+  const regYear = yearNum + 1;
+
+  return {
+    registeredUntil: `01.10.${regYear}.`,
+    doors: "5",
+    seats: "5",
+    co2: car.fuel === "Dizel" ? "120 g/km" : "135 g/km",
+    euro: "6",
+    color: "Crna",
+    powerCombined: ks ? `${kw} KW / ${ks} KS` : car.power,
+  };
+}
+
+function calcAlternateMonthly(price: string) {
+  // Derive a small "info" alternate rate (price / 65 months at ~3%).
+  const num = parseInt(price.replace(/[^\d]/g, ""), 10) || 0;
+  const rate = Math.round((num / 65) * 100) / 100;
+  return `${rate.toFixed(2).replace(".", ",")} €/mj`;
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Main view
+// ──────────────────────────────────────────────────────────────────
+
 export default function CarDetailView({ car, related }: Props) {
   const { open } = useAIChat();
   const [selectedImage, setSelectedImage] = useState(car.image);
-  // Only one photo per car in our dataset — repeat it for the thumb strip.
   const thumbs = [car.image, car.image, car.image, car.image];
 
   // Split "FIAT 500 1.2" → mainName "FIAT 500" + variant "1.2"
-  // Variant starts with a decimal engine size like 1.2, 2.0, 1.6 (with a dot)
   const variantMatch = car.name.match(/^(.+?)(\s\d+\.\d.*)?$/);
-  const mainName = (variantMatch?.[1] || car.name).toUpperCase();
+  const mainName = variantMatch?.[1] || car.name;
   const variant = variantMatch?.[2]?.trim() || "";
+
+  const specs = deriveSpecs(car);
 
   return (
     <>
       <Navbar />
-      <main className="pt-[72px] min-h-screen bg-[#FAFBFC]">
+      <main className="pt-[72px] min-h-screen bg-white">
         <div className="max-w-[1320px] mx-auto px-3 py-6">
           {/* Breadcrumbs */}
           <nav className="text-[13px] text-[#5F6D7A] mb-4 flex items-center gap-2 flex-wrap">
@@ -64,16 +185,48 @@ export default function CarDetailView({ car, related }: Props) {
           </nav>
 
           {/* Main: gallery + summary */}
-          <div className="grid lg:grid-cols-[1fr_380px] gap-6 mb-8">
+          <div className="grid lg:grid-cols-[1fr_380px] gap-6 mb-6">
+
             {/* Left: image gallery */}
             <div>
-              <div className="bg-white rounded-xl overflow-hidden" style={{ border: "1px solid rgba(0,0,0,0.06)" }}>
-                <div className="aspect-[16/10] bg-gray-50 relative">
+              <div className="bg-[#F7F7FC] rounded-xl overflow-hidden relative">
+                <div className="aspect-[16/10] relative">
                   <img
                     src={img(selectedImage)}
                     alt={car.name}
                     className="w-full h-full object-cover"
                   />
+                  {/* Top-right seat icon overlay */}
+                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full w-8 h-8 flex items-center justify-center shadow-sm">
+                    <svg className="w-4 h-4 text-[#212529]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <circle cx="12" cy="7" r="3" />
+                      <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+                    </svg>
+                  </div>
+                  {/* Bottom-left ID overlay */}
+                  <div className="absolute bottom-3 left-3 text-[11px] text-[#5F6D7A] bg-white/80 px-2 py-1 rounded">
+                    ID: {car.id.toUpperCase().replace(/-/g, "")}
+                  </div>
+                  {/* Bottom-center icons */}
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                    <button type="button" className="bg-white/90 backdrop-blur-sm rounded-full w-8 h-8 flex items-center justify-center shadow-sm">
+                      <svg className="w-4 h-4 text-[#212529]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                      </svg>
+                    </button>
+                    <button type="button" className="bg-white/90 backdrop-blur-sm rounded-full w-8 h-8 flex items-center justify-center shadow-sm">
+                      <svg className="w-4 h-4 text-[#212529]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                      </svg>
+                    </button>
+                  </div>
+                  {/* Bottom-right 360 indicator */}
+                  <div className="absolute bottom-3 right-3 text-[11px] text-[#5F6D7A] bg-white/80 px-2 py-1 rounded flex items-center gap-1">
+                    360
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path d="M3 12a9 9 0 0 1 9-9c4 0 7 3 7 6M21 6v4h-4" />
+                    </svg>
+                  </div>
                 </div>
               </div>
               {/* Thumbnail row */}
@@ -83,10 +236,9 @@ export default function CarDetailView({ car, related }: Props) {
                     key={i}
                     type="button"
                     onClick={() => setSelectedImage(src)}
-                    className={`bg-white rounded-lg overflow-hidden hover:ring-2 hover:ring-[#00CCFF] transition-all ${
-                      src === selectedImage ? "ring-2 ring-[#00CCFF]" : ""
+                    className={`bg-[#F7F7FC] rounded-lg overflow-hidden hover:ring-2 hover:ring-[#00CCFF] transition-all ${
+                      src === selectedImage && i === 0 ? "ring-2 ring-[#00CCFF]" : ""
                     }`}
-                    style={{ border: "1px solid rgba(0,0,0,0.06)" }}
                   >
                     <div className="aspect-[16/10] relative">
                       <img src={img(src)} alt="" className="w-full h-full object-cover" />
@@ -97,161 +249,106 @@ export default function CarDetailView({ car, related }: Props) {
             </div>
 
             {/* Right: title + pricing summary */}
-            <aside className="flex flex-col gap-5">
-              {/* Title block */}
-              <div>
-                <h1 className="text-2xl md:text-[26px] font-bold text-black leading-tight">
-                  {mainName}, {car.year}
-                </h1>
-                {variant && (
-                  <p className="text-sm text-[#5F6D7A] mt-1">{variant}</p>
-                )}
+            <aside
+              className="rounded-xl p-5 flex flex-col gap-4"
+              style={{ backgroundColor: "#ECFCFF" }}
+            >
+              {/* Title row with heart + share */}
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h1 className="text-xl md:text-[22px] font-bold text-black leading-tight">
+                    {mainName}, {car.year}
+                  </h1>
+                  {variant && (
+                    <p className="text-sm text-[#5F6D7A] mt-1">{variant}</p>
+                  )}
+                </div>
+                <div className="flex gap-2 flex-none">
+                  <button type="button" aria-label="Spremi" className="w-8 h-8 flex items-center justify-center text-[#5F6D7A] hover:text-[#01A5CE]">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                  </button>
+                  <button type="button" aria-label="Podijeli" className="w-8 h-8 flex items-center justify-center text-[#5F6D7A] hover:text-[#01A5CE]">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" />
+                    </svg>
+                  </button>
+                </div>
               </div>
 
-              {/* Price (cash) */}
+              {/* Cash price */}
               <div>
-                <p className="text-3xl font-bold text-black leading-none">
-                  {car.price.replace(" €", ",00 €")}
+                <p className="text-[26px] font-bold text-black leading-none">
+                  {formatPrice(car.price)}
                 </p>
-                <p className="text-[12px] text-[#5F6D7A] mt-1.5">
-                  ({car.monthly.replace("od ", "")})
+                <p className="text-[13px] text-[#5F6D7A] mt-1.5 flex items-center gap-1">
+                  {calcAlternateMonthly(car.price)}
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 8v4M12 16h.01" />
+                  </svg>
                 </p>
               </div>
 
-              {/* Leasing pricing card */}
+              {/* Leasing savings card — cyan-to-mint gradient */}
               <div
-                className="rounded-xl p-5 flex flex-col gap-4"
-                style={{ backgroundColor: "#ECFCFF", border: "1px solid #B8F0FF" }}
+                className="rounded-xl p-4 flex flex-col gap-3"
+                style={{
+                  background: "linear-gradient(180deg, #B8F0FF 0%, #BFEDD8 100%)",
+                }}
               >
                 <div>
-                  <p className="text-[12px] text-[#5F6D7A] mb-1">Cijena s leasingom</p>
-                  <p className="text-[32px] font-bold text-black leading-none">
+                  <p className="text-[12px] text-[#5F6D7A] mb-1">Štedi više od</p>
+                  <p className="text-3xl font-bold text-black leading-none">
                     {car.monthly.replace("od ", "").replace("/mj", "")}
-                    <span className="text-base font-normal text-[#5F6D7A] ml-1">/mj</span>
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => open(`Zanima me ${car.name}, ${car.year}`)}
-                  className="w-full bg-white text-[#212529] font-bold py-3 rounded-lg hover:opacity-90 transition-opacity"
-                  style={{ border: "1.5px solid #80CEAA" }}
+                  className="w-full bg-white rounded-lg py-2.5 text-[14px] font-bold text-[#212529] flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
                 >
-                  <span className="inline-flex items-center gap-2">
-                    <svg className="w-4 h-4 text-[#80CEAA]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                    </svg>
-                    Pošalji upit
-                  </span>
+                  <img src={img("/images/icon-sparkle.svg")} alt="" className="w-4 h-4" />
+                  Pitaj AI savjetnika
                 </button>
               </div>
 
-              {/* Secondary action buttons */}
+              {/* Action buttons row */}
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
                   onClick={() => open(`Kontakt za ${car.name}`)}
-                  className="flex items-center justify-center gap-2 py-2.5 rounded-lg border border-gray-300 text-sm font-medium text-[#212529] hover:bg-gray-50 transition-colors"
+                  className="bg-white border border-gray-300 rounded-lg py-2.5 text-sm font-semibold text-[#212529] hover:bg-gray-50 transition-colors"
                 >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
                   Kontakt
                 </button>
-                <a
-                  href="tel:+38512345678"
-                  className="flex items-center justify-center gap-2 py-2.5 rounded-lg border border-gray-300 text-sm font-medium text-[#212529] hover:bg-gray-50 transition-colors"
+                <button
+                  type="button"
+                  onClick={() => open(`Zanima me ${car.name}`)}
+                  className="bg-black text-white rounded-lg py-2.5 text-sm font-semibold hover:bg-gray-900 transition-colors"
                 >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h2.28a2 2 0 011.94 1.515l.7 2.8a2 2 0 01-.45 1.95l-1.27 1.27a16 16 0 006.586 6.586l1.27-1.27a2 2 0 011.95-.45l2.8.7A2 2 0 0121 17.72V20a2 2 0 01-2 2h-1C10.163 22 2 13.837 2 4V3z" />
-                  </svg>
-                  Zovni nas
-                </a>
-              </div>
-
-              {/* NEOSTAR provjereno badge */}
-              <div
-                className="flex items-center gap-3 p-3 rounded-lg"
-                style={{ backgroundColor: "#ECFCFF", border: "1px solid #00CCFF" }}
-              >
-                <div
-                  className="flex items-center justify-center w-9 h-9 rounded-full flex-none"
-                  style={{ backgroundColor: "#00CCFF" }}
-                >
-                  <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <p className="text-[13px] font-bold text-black">NEOSTAR provjereno vozilo</p>
-                  <p className="text-[11px] text-[#5F6D7A]">Pregled u 59 točaka · 12 mj jamstvo</p>
-                </div>
+                  Zanima me
+                </button>
               </div>
             </aside>
           </div>
 
-          {/* Specs row */}
-          <div className="bg-white rounded-xl p-5 mb-6" style={{ border: "1px solid rgba(0,0,0,0.06)" }}>
-            <h2 className="text-lg font-bold text-black mb-4">Osnovne karakteristike</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-              <SpecIcon
-                label="Godište"
-                value={car.year.replace(" g.", "")}
-                icon={
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                    <rect x="3" y="5" width="18" height="16" rx="2" />
-                    <path d="M16 3v4M8 3v4M3 11h18" />
-                  </svg>
-                }
-              />
-              <SpecIcon
-                label="Kilometraža"
-                value={car.km}
-                icon={
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="M12 7v5l3 2" />
-                  </svg>
-                }
-              />
-              <SpecIcon
-                label="Gorivo"
-                value={car.fuel}
-                icon={
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                    <path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16" />
-                    <path d="M4 21h10M14 9h2a2 2 0 0 1 2 2v6a2 2 0 0 0 2 2v0" />
-                  </svg>
-                }
-              />
-              <SpecIcon
-                label="Mjenjač"
-                value={car.transmission}
-                icon={
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                    <circle cx="6" cy="12" r="2" />
-                    <path d="M6 14v4M6 10V6M12 8v8M18 8v8M18 6h-6M18 18h-6" />
-                  </svg>
-                }
-              />
-              <SpecIcon
-                label="Snaga"
-                value={car.power}
-                icon={
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M13 2L4 14h7l-1 8 9-12h-7z" />
-                  </svg>
-                }
-              />
-              <SpecIcon
-                label="Lokacija"
-                value={car.location}
-                icon={
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                    <path d="M12 22s8-8 8-13a8 8 0 0 0-16 0c0 5 8 13 8 13z" />
-                    <circle cx="12" cy="9" r="3" />
-                  </svg>
-                }
-              />
+          {/* Specs row — 12 items in 6 cols */}
+          <div className="bg-white rounded-xl py-5 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-5">
+              <SpecItem label="Lokacija" value={car.location} icon={Icons.location} />
+              <SpecItem label="Godište" value={car.year.replace(/\.?\s?g\.?$/, "").trim()} icon={Icons.year} />
+              <SpecItem label="Kilometraža" value={car.km} icon={Icons.km} />
+              <SpecItem label="Vrsta goriva" value={car.fuel} icon={Icons.fuel} />
+              <SpecItem label="Snaga motora" value={specs.powerCombined} icon={Icons.power} />
+              <SpecItem label="Vrsta mjenjača" value={car.transmission} icon={Icons.transmission} />
+              <SpecItem label="Registriran do" value={specs.registeredUntil} icon={Icons.registered} />
+              <SpecItem label="Broj vrata" value={specs.doors} icon={Icons.doors} />
+              <SpecItem label="Broj sjedala" value={specs.seats} icon={Icons.seats} />
+              <SpecItem label="CO2" value={specs.co2} icon={Icons.co2} />
+              <SpecItem label="Euro norma" value={specs.euro} icon={Icons.euro} />
+              <SpecItem label="Boja" value={specs.color} icon={Icons.color} />
             </div>
           </div>
 
