@@ -85,10 +85,10 @@ const SUGGESTIONS_INITIAL = [
     iconColor: "#00CCFF",
     icon: (color: string) => (
       <svg viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <path d="M5 17h-2v-6l2-5h13l2 5v6h-2" />
+        <path d="M19 17h2a1 1 0 0 0 1-1v-3c0-.8-.4-1.5-1.1-1.8L19 10l-1.6-3.5A2 2 0 0 0 15.6 5H8.4a2 2 0 0 0-1.8 1.1L5 10l-1.9.9A2 2 0 0 0 2 12.6V16a1 1 0 0 0 1 1h2" />
+        <path d="M9 17h6" />
         <circle cx="7" cy="17" r="2" />
         <circle cx="17" cy="17" r="2" />
-        <path d="M5 11h14" />
       </svg>
     ),
   },
@@ -130,7 +130,8 @@ const SUGGESTIONS_CAR_DETAIL = [
     iconColor: "#00CCFF",
     icon: (color: string) => (
       <svg viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <path d="M5 17h-2v-6l2-5h13l2 5v6h-2" />
+        <path d="M19 17h2a1 1 0 0 0 1-1v-3c0-.8-.4-1.5-1.1-1.8L19 10l-1.6-3.5A2 2 0 0 0 15.6 5H8.4a2 2 0 0 0-1.8 1.1L5 10l-1.9.9A2 2 0 0 0 2 12.6V16a1 1 0 0 0 1 1h2" />
+        <path d="M9 17h6" />
         <circle cx="7" cy="17" r="2" />
         <circle cx="17" cy="17" r="2" />
       </svg>
