@@ -171,7 +171,7 @@ const SUGGESTIONS_CAR_DETAIL = [
 function AiBubble({ text }: { text: string }) {
   return (
     <div
-      className="self-start max-w-[85%] px-3.5 py-3"
+      className="self-start max-w-[85%] md:max-w-[480px] px-3.5 py-3"
       style={{
         backgroundColor: "#F7F7FC",
         borderRadius: "4px 12px 12px 12px",
@@ -185,7 +185,7 @@ function AiBubble({ text }: { text: string }) {
 function UserBubble({ text }: { text: string }) {
   return (
     <div
-      className="self-end max-w-[85%] px-3.5 py-3"
+      className="self-end max-w-[85%] md:max-w-[480px] px-3.5 py-3"
       style={{
         backgroundColor: "rgba(127,229,255,0.25)",
         borderRadius: "12px 12px 4px 12px",
@@ -386,7 +386,7 @@ export default function AIChatModal() {
       onClick={close}
     >
       <div
-        className="bg-white w-full max-w-[420px] md:max-w-[460px] max-h-[85vh] md:max-h-[90vh] rounded-2xl overflow-hidden flex flex-col shadow-2xl"
+        className="bg-white w-full max-w-[420px] md:max-w-[750px] max-h-[85vh] md:max-h-[90vh] rounded-2xl overflow-hidden flex flex-col shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
