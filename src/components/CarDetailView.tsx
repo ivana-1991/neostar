@@ -35,10 +35,15 @@ function SpecIcon({
 
 export default function CarDetailView({ car, related }: Props) {
   const { open } = useAIChat();
-  // The dataset only has one photo per car — show it as the main image and
-  // reuse it for the thumbnail row so the gallery UI is populated.
-  const [selectedImage] = useState(car.image);
+  const [selectedImage, setSelectedImage] = useState(car.image);
+  // Only one photo per car in our dataset — repeat it for the thumb strip.
   const thumbs = [car.image, car.image, car.image, car.image];
+
+  // Split "FIAT 500 1.2" → mainName "FIAT 500" + variant "1.2"
+  // Variant starts with a decimal engine size like 1.2, 2.0, 1.6 (with a dot)
+  const variantMatch = car.name.match(/^(.+?)(\s\d+\.\d.*)?$/);
+  const mainName = (variantMatch?.[1] || car.name).toUpperCase();
+  const variant = variantMatch?.[2]?.trim() || "";
 
   return (
     <>
@@ -59,7 +64,7 @@ export default function CarDetailView({ car, related }: Props) {
           </nav>
 
           {/* Main: gallery + summary */}
-          <div className="grid lg:grid-cols-[1fr_360px] gap-6 mb-8">
+          <div className="grid lg:grid-cols-[1fr_380px] gap-6 mb-8">
             {/* Left: image gallery */}
             <div>
               <div className="bg-white rounded-xl overflow-hidden" style={{ border: "1px solid rgba(0,0,0,0.06)" }}>
@@ -77,7 +82,10 @@ export default function CarDetailView({ car, related }: Props) {
                   <button
                     key={i}
                     type="button"
-                    className="bg-white rounded-lg overflow-hidden hover:ring-2 hover:ring-[#00CCFF] transition-all"
+                    onClick={() => setSelectedImage(src)}
+                    className={`bg-white rounded-lg overflow-hidden hover:ring-2 hover:ring-[#00CCFF] transition-all ${
+                      src === selectedImage ? "ring-2 ring-[#00CCFF]" : ""
+                    }`}
                     style={{ border: "1px solid rgba(0,0,0,0.06)" }}
                   >
                     <div className="aspect-[16/10] relative">
@@ -88,61 +96,85 @@ export default function CarDetailView({ car, related }: Props) {
               </div>
             </div>
 
-            {/* Right: title + pricing card */}
-            <aside className="flex flex-col gap-4">
-              <h1 className="text-2xl md:text-[28px] font-bold text-black leading-tight">
-                {car.name}, {car.year}
-              </h1>
+            {/* Right: title + pricing summary */}
+            <aside className="flex flex-col gap-5">
+              {/* Title block */}
+              <div>
+                <h1 className="text-2xl md:text-[26px] font-bold text-black leading-tight">
+                  {mainName}, {car.year}
+                </h1>
+                {variant && (
+                  <p className="text-sm text-[#5F6D7A] mt-1">{variant}</p>
+                )}
+              </div>
 
-              {/* Pricing card */}
+              {/* Price (cash) */}
+              <div>
+                <p className="text-3xl font-bold text-black leading-none">
+                  {car.price.replace(" €", ",00 €")}
+                </p>
+                <p className="text-[12px] text-[#5F6D7A] mt-1.5">
+                  ({car.monthly.replace("od ", "")})
+                </p>
+              </div>
+
+              {/* Leasing pricing card */}
               <div
                 className="rounded-xl p-5 flex flex-col gap-4"
-                style={{
-                  background: "linear-gradient(180deg, #00CCFF 0%, #80CEAA 100%)",
-                }}
+                style={{ backgroundColor: "#ECFCFF", border: "1px solid #B8F0FF" }}
               >
-                <div className="flex items-end justify-between text-white">
-                  <div>
-                    <p className="text-[11px] uppercase opacity-80 mb-1">Cijena</p>
-                    <p className="text-3xl font-bold">{car.price}</p>
-                  </div>
-                  <div className="bg-white rounded-lg px-3 py-2 text-right">
-                    <p className="text-[10px] text-[#5F6D7A] leading-tight">Leasing rata</p>
-                    <p className="text-base font-bold text-black leading-tight">{car.monthly}</p>
-                  </div>
+                <div>
+                  <p className="text-[12px] text-[#5F6D7A] mb-1">Cijena s leasingom</p>
+                  <p className="text-[32px] font-bold text-black leading-none">
+                    {car.monthly.replace("od ", "").replace("/mj", "")}
+                    <span className="text-base font-normal text-[#5F6D7A] ml-1">/mj</span>
+                  </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => open(`Zanima me ${car.name}, ${car.year}`)}
-                  className="w-full bg-white text-[#212529] font-bold py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="w-full bg-white text-[#212529] font-bold py-3 rounded-lg hover:opacity-90 transition-opacity"
+                  style={{ border: "1.5px solid #80CEAA" }}
                 >
-                  Pošalji upit
+                  <span className="inline-flex items-center gap-2">
+                    <svg className="w-4 h-4 text-[#80CEAA]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                    </svg>
+                    Pošalji upit
+                  </span>
                 </button>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => open(`Želim probnu vožnju za ${car.name}`)}
-                    className="bg-white/30 text-white border border-white/60 font-medium py-2 rounded-lg text-sm hover:bg-white/40 transition-colors"
-                  >
-                    Probna vožnja
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => open(`Izračunaj leasing za ${car.name}`)}
-                    className="bg-white/30 text-white border border-white/60 font-medium py-2 rounded-lg text-sm hover:bg-white/40 transition-colors"
-                  >
-                    Izračun rate
-                  </button>
-                </div>
+              </div>
+
+              {/* Secondary action buttons */}
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => open(`Kontakt za ${car.name}`)}
+                  className="flex items-center justify-center gap-2 py-2.5 rounded-lg border border-gray-300 text-sm font-medium text-[#212529] hover:bg-gray-50 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  Kontakt
+                </button>
+                <a
+                  href="tel:+38512345678"
+                  className="flex items-center justify-center gap-2 py-2.5 rounded-lg border border-gray-300 text-sm font-medium text-[#212529] hover:bg-gray-50 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h2.28a2 2 0 011.94 1.515l.7 2.8a2 2 0 01-.45 1.95l-1.27 1.27a16 16 0 006.586 6.586l1.27-1.27a2 2 0 011.95-.45l2.8.7A2 2 0 0121 17.72V20a2 2 0 01-2 2h-1C10.163 22 2 13.837 2 4V3z" />
+                  </svg>
+                  Zovni nas
+                </a>
               </div>
 
               {/* NEOSTAR provjereno badge */}
               <div
-                className="flex items-center gap-3 p-4 rounded-lg"
+                className="flex items-center gap-3 p-3 rounded-lg"
                 style={{ backgroundColor: "#ECFCFF", border: "1px solid #00CCFF" }}
               >
                 <div
-                  className="flex items-center justify-center w-10 h-10 rounded-full flex-none"
+                  className="flex items-center justify-center w-9 h-9 rounded-full flex-none"
                   style={{ backgroundColor: "#00CCFF" }}
                 >
                   <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -150,7 +182,7 @@ export default function CarDetailView({ car, related }: Props) {
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-bold text-black">NEOSTAR provjereno vozilo</p>
+                  <p className="text-[13px] font-bold text-black">NEOSTAR provjereno vozilo</p>
                   <p className="text-[11px] text-[#5F6D7A]">Pregled u 59 točaka · 12 mj jamstvo</p>
                 </div>
               </div>
