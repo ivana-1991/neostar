@@ -248,11 +248,10 @@ export default function CarDetailView({ car, related }: Props) {
               </div>
             </div>
 
-            {/* Right: title + pricing summary */}
-            <aside
-              className="rounded-xl p-5 flex flex-col gap-4"
-              style={{ backgroundColor: "#ECFCFF" }}
-            >
+            {/* Right: title + pricing summary
+                On mobile: plain stacked, no card background.
+                On lg+: cyan card. */}
+            <aside className="flex flex-col gap-4 lg:rounded-xl lg:p-5 lg:bg-[#ECFCFF]">
               {/* Title row with heart + share */}
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -306,7 +305,7 @@ export default function CarDetailView({ car, related }: Props) {
                 </div>
                 <button
                   type="button"
-                  onClick={() => open(`Zanima me ${car.name}, ${car.year}`)}
+                  onClick={() => open({ car, query: `Detaljnije o ${car.name}, ${car.year}` })}
                   className="w-full bg-white rounded-lg py-2.5 text-[14px] font-bold text-[#212529] flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
                 >
                   <img src={img("/images/icon-sparkle.svg")} alt="" className="w-4 h-4" />

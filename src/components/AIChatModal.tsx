@@ -432,8 +432,35 @@ function generateAIResponse(userMsg: string): Message[] {
 // Main modal
 // ──────────────────────────────────────────────────────────────────
 
+function buildCarContextMessages(car: Car): Message[] {
+  const priceNum = parseInt(car.price.replace(/[^\d]/g, ""), 10) || 0;
+  const rate60_20 = Math.round((priceNum * 0.85) / 60 * 1.07);
+  const rate72_30 = Math.round((priceNum * 0.75) / 72 * 1.07);
+  const rate84_0 = Math.round((priceNum / 84) * 1.07);
+
+  return [
+    {
+      kind: "ai",
+      text: `Vidim da te zanima ${car.name} (${car.year}, ${car.km}, ${car.location}). Evo svega što trebaš znati 👇`,
+    },
+    { kind: "car-detail", car },
+    {
+      kind: "ai",
+      text: `🚗 Tehnički detalji\n• Gorivo: ${car.fuel}\n• Mjenjač: ${car.transmission}\n• Snaga: ${car.power}\n• Cijena: ${car.price}`,
+    },
+    {
+      kind: "ai",
+      text: `💳 Opcije financiranja (uz 5,99% EKS)\n• 0% učešća, 84 mj → ~${rate84_0} €/mj\n• 20% učešća, 60 mj → ~${rate60_20} €/mj\n• 30% učešća, 72 mj → ~${rate72_30} €/mj\n\n✅ NEOSTAR jamstvo 12 mj uključeno\n✅ Pregled u 59 točaka prošao`,
+    },
+    {
+      kind: "ai",
+      text: "Što te najviše zanima? Mogu ti pomoći s probnom vožnjom, detaljima opreme ili konkretnim izračunom rate.",
+    },
+  ];
+}
+
 export default function AIChatModal() {
-  const { isOpen, initialQuery, close } = useAIChat();
+  const { isOpen, initialQuery, initialCar, close } = useAIChat();
   const [stage, setStage] = useState<Stage>("welcome");
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
@@ -451,10 +478,17 @@ export default function AIChatModal() {
       setIsTyping(false);
       return;
     }
-    setSelectedCar(null);
+    setSelectedCar(initialCar ?? null);
     setInputValue("");
     setIsTyping(false);
-    if (initialQuery) {
+    if (initialCar) {
+      // User clicked "Pitaj AI savjetnika" on a specific car — show detailed info
+      const userMsg = initialQuery
+        ? { kind: "user" as const, text: initialQuery }
+        : { kind: "user" as const, text: `Zanima me ${initialCar.name}` };
+      setMessages([userMsg, ...buildCarContextMessages(initialCar)]);
+      setStage("car-detail");
+    } else if (initialQuery) {
       // User typed a question into the search bar → jump straight to recommendations
       setMessages([
         { kind: "user", text: initialQuery },
@@ -470,7 +504,7 @@ export default function AIChatModal() {
       setStage("welcome");
       setMessages([]);
     }
-  }, [isOpen, initialQuery]);
+  }, [isOpen, initialQuery, initialCar]);
 
   // Auto-focus input when modal opens
   useEffect(() => {
