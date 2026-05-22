@@ -317,34 +317,51 @@ export default function CarDetailView({ car, related, sellerCars = [] }: Props) 
                 <p className="text-[26px] font-bold text-black leading-none">
                   {formatPrice(car.price)}
                 </p>
-                <p className="text-[13px] text-[#5F6D7A] mt-1.5 flex items-center gap-1">
-                  {calcAlternateMonthly(car.price)}
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="M12 8v4M12 16h.01" />
-                  </svg>
-                </p>
               </div>
 
-              {/* Leasing savings card — cyan-to-mint gradient */}
+              {/* AI savjetnik pricing card — cyan-to-mint gradient */}
               <div
                 className="rounded-xl p-4 flex flex-col gap-3"
                 style={{
                   background: "linear-gradient(180deg, #B8F0FF 0%, #BFEDD8 100%)",
                 }}
               >
+                {/* AI savjetnik header */}
+                <div className="flex items-center gap-2">
+                  <div
+                    className="flex items-center justify-center rounded-full w-8 h-8 flex-none"
+                    style={{ backgroundColor: "#F7F7FC" }}
+                  >
+                    <img src={img("/images/icon-sparkle.svg")} alt="" className="w-4 h-4" />
+                  </div>
+                  <div className="leading-tight">
+                    <p className="font-bold text-[13px] text-[#0F1419]">AI prodajni savjetnik</p>
+                    <p className="text-[11px] text-[#5F6D7A]">Neostar</p>
+                  </div>
+                </div>
+
+                {/* Savings label + amount */}
                 <div>
-                  <p className="text-[12px] text-[#5F6D7A] mb-1">Štedi više od</p>
+                  <p className="text-[13px] text-[#212529] mb-1">Na ovom autu štediš više od</p>
                   <p className="text-3xl font-bold text-black leading-none">
                     {car.monthly.replace("od ", "").replace("/mj", "")}
                   </p>
                 </div>
+
+                {/* Estimated rate row */}
+                <div className="bg-white rounded-lg px-3 py-2.5 flex items-center justify-between">
+                  <span className="text-[13px] text-[#5F6D7A]">Procijenjena rata</span>
+                  <span className="text-[14px] font-bold text-black">
+                    {calcAlternateMonthly(car.price)}
+                  </span>
+                </div>
+
+                {/* CTA */}
                 <button
                   type="button"
                   onClick={() => open({ car, query: `Detaljnije o ${car.name}, ${car.year}` })}
-                  className="w-full bg-white rounded-lg py-2.5 text-[14px] font-bold text-[#212529] flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+                  className="w-full bg-white rounded-lg py-2.5 text-[14px] font-semibold text-[#212529] hover:opacity-90 transition-opacity"
                 >
-                  <img src={img("/images/icon-sparkle.svg")} alt="" className="w-4 h-4" />
                   Pitaj AI savjetnika
                 </button>
               </div>
