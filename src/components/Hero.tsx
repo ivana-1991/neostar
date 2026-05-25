@@ -69,8 +69,93 @@ export default function Hero() {
     >
       <div className="max-w-[1320px] mx-auto px-3 relative">
 
-        {/* Top: heading left + AI savjetnik chat preview right */}
-        <div className="grid md:grid-cols-2 items-center pt-8 pb-4 gap-6 md:gap-8">
+        {/* Mobile-only hero: centered stacked layout with AI car recommendation card */}
+        <div className="md:hidden flex flex-col items-center pt-8 pb-4 gap-5 text-center">
+          <h1
+            className="font-bold text-black"
+            style={{ fontSize: "clamp(26px, 7vw, 32px)", lineHeight: "1.2" }}
+          >
+            Tvoj auto. Tvoj savjetnik.
+          </h1>
+
+          <p className="text-[#212529] text-[14px] leading-[1.55] px-2">
+            Pronađi savršen auto. Bez stresa. AI savjetnik koji ti pomaže od izbora modela do najbolje opcije kupnje — dostupan 24/7.
+          </p>
+
+          {/* CTA — full width on mobile */}
+          <button
+            type="button"
+            onClick={() => open()}
+            className="w-full max-w-sm inline-flex items-center justify-center gap-2.5 px-4 py-3 rounded-lg font-bold text-sm text-white cursor-pointer hover:opacity-90 transition-opacity"
+            style={{
+              background: "linear-gradient(to right, #00CCFF 4.97%, #80CEAA 94.75%)",
+            }}
+          >
+            Pronađi svoj auto
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* AI recommendation car card (clickable) */}
+          <Link
+            href="/vozila/fiat-500"
+            className="w-full max-w-sm bg-white rounded-2xl p-3.5 flex flex-col gap-3 shadow-[0_8px_24px_rgba(0,0,0,0.08)] text-left mt-2"
+            style={{
+              border: "1px solid rgba(0,204,255,0.3)",
+              animation: "pop-in 0.6s ease-out 0.1s both",
+            }}
+          >
+            {/* AI savjetnik header */}
+            <div className="flex items-center gap-2">
+              <div
+                className="flex items-center justify-center rounded-full w-8 h-8 flex-none"
+                style={{ backgroundColor: "#F7F7FC" }}
+              >
+                <img src={img("/images/icon-sparkle.svg")} alt="" className="w-5 h-5" />
+              </div>
+              <div className="leading-tight">
+                <p className="font-bold text-[12px] text-[#0F1419]">AI prodajni savjetnik</p>
+                <p className="text-[10px] text-[#5F6D7A]">Neostar</p>
+              </div>
+            </div>
+
+            {/* Car details */}
+            <div className="flex gap-3">
+              <div className="w-[88px] h-[68px] flex-none rounded-lg overflow-hidden relative">
+                <div
+                  className="absolute inset-0 rounded-lg pointer-events-none"
+                  style={{ backgroundColor: "rgba(0,204,255,0.12)" }}
+                />
+                <img
+                  src={img("/images/car-fiat-500.jpg")}
+                  alt="FIAT 500"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+                <p className="text-[14px] font-bold text-[#212529] leading-tight">FIAT 500 1.2</p>
+                <p className="text-[11px] text-[#5F6D7A] leading-tight">
+                  2016. g. · 55.000 km · Velika Gorica
+                </p>
+                <div className="flex gap-1 flex-wrap pt-0.5">
+                  {["Benzin", "Mehanički", "51 KS"].map((s) => (
+                    <span key={s} className="text-[10px] text-[#5F6D7A] bg-[#F7F7FC] px-1.5 py-0.5 rounded">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+                <div className="border-t border-gray-100 pt-1.5 mt-1 flex items-center justify-between">
+                  <span className="text-[14px] font-bold text-[#212529]">9.800 €</span>
+                  <span className="text-[10px] text-[#00CCFF] font-bold">od 105 €/mj</span>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Desktop-only hero: heading left + AI savjetnik chat preview composition right */}
+        <div className="hidden md:grid md:grid-cols-2 items-center pt-8 pb-4 gap-6 md:gap-8">
 
           {/* Heading + description + CTA */}
           <div className="order-2 md:order-1 flex flex-col items-center md:items-start gap-5 md:gap-6">
