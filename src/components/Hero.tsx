@@ -70,7 +70,7 @@ export default function Hero() {
       <div className="max-w-[1320px] mx-auto px-3 relative">
 
         {/* Mobile-only hero: centered stacked layout with AI car recommendation card */}
-        <div className="md:hidden flex flex-col items-center pt-8 pb-4 gap-5 text-center">
+        <div className="md:hidden flex flex-col items-center pt-3 pb-4 gap-5 text-center">
           <h1
             className="font-bold text-black"
             style={{ fontSize: "clamp(26px, 7vw, 32px)", lineHeight: "1.2" }}
@@ -155,7 +155,7 @@ export default function Hero() {
         </div>
 
         {/* Desktop-only hero: heading left + AI savjetnik chat preview composition right */}
-        <div className="hidden md:grid md:grid-cols-2 items-center pt-8 pb-4 gap-6 md:gap-8">
+        <div className="hidden md:grid md:grid-cols-2 items-center pt-3 pb-4 gap-6 md:gap-8">
 
           {/* Heading + description + CTA */}
           <div className="order-2 md:order-1 flex flex-col items-center md:items-start gap-5 md:gap-6">
@@ -193,7 +193,7 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={() => open()}
-                className="absolute top-0 right-0 md:right-4 w-[88%] md:w-[360px] bg-white rounded-2xl p-5 flex flex-col gap-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.08)] text-left hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] transition-shadow z-10 opacity-0"
+                className="absolute top-[44px] right-0 md:right-4 w-[88%] md:w-[360px] bg-white rounded-2xl p-5 flex flex-col gap-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.08)] text-left hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] transition-shadow z-10 opacity-0"
                 style={{
                   border: "0.5px solid rgba(0,0,0,0.08)",
                   animation: "pop-in 0.6s ease-out 0s forwards",
@@ -255,7 +255,7 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={() => open("Tražim auto - pomozi mi ga pronaći")}
-                className="hidden md:flex absolute top-[100px] left-0 items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-bold text-white hover:opacity-90 transition-opacity shadow-[0_4px_16px_rgba(0,0,0,0.08)] z-20 opacity-0"
+                className="hidden md:flex absolute top-0 right-[140px] items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-bold text-white hover:opacity-90 transition-opacity shadow-[0_4px_16px_rgba(0,0,0,0.08)] z-30 opacity-0"
                 style={{
                   background: "linear-gradient(102deg, #00CCFF 6.85%, #80CEAA 95.45%)",
                   border: "1px solid #7FE5FF",
