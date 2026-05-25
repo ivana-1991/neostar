@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { img } from "@/lib/img";
 import { useAIChat } from "@/lib/aiChatContext";
 import FilterDropdown from "@/components/FilterDropdown";
@@ -60,18 +61,21 @@ export default function Hero() {
     <section className="bg-white pt-[72px]">
       <div className="max-w-[1320px] mx-auto px-3">
 
-        {/* Top: heading left + illustration right (desktop) / image top + heading bottom (mobile) */}
-        <div className="grid md:grid-cols-2 items-center pt-8 pb-4 gap-4">
+        {/* Top: heading left + AI savjetnik chat preview right */}
+        <div className="grid md:grid-cols-2 items-center pt-8 pb-4 gap-6 md:gap-8">
 
-          {/* Heading + CTA — below image on mobile, left on desktop */}
-          <div className="order-2 md:order-1 flex flex-col items-center md:items-start gap-8">
+          {/* Heading + description + CTA */}
+          <div className="order-2 md:order-1 flex flex-col items-center md:items-start gap-5 md:gap-6">
             <h1
               className="font-bold text-black text-center md:text-left w-full"
-              style={{ fontSize: "clamp(28px, 4vw, 56px)", lineHeight: "1.2" }}
+              style={{ fontSize: "clamp(32px, 4.5vw, 56px)", lineHeight: "1.15" }}
             >
-              Auto u prvom planu.<br />
-              Ti u centru pažnje.
+              Tvoj auto. Tvoj savjetnik.
             </h1>
+
+            <p className="text-[#212529] text-center md:text-left text-base md:text-[17px] leading-[1.55] max-w-[560px]">
+              Pronađi savršen auto. Bez stresa. AI savjetnik koji ti pomaže od izbora modela do najbolje opcije kupnje — dostupan 24/7.
+            </p>
 
             {/* Gradient CTA */}
             <button
@@ -89,13 +93,119 @@ export default function Hero() {
             </button>
           </div>
 
-          {/* Showroom illustration — top on mobile, right on desktop */}
+          {/* AI chat preview composition */}
           <div className="order-1 md:order-2 flex justify-center md:justify-end">
-            <img
-              src={img("/images/hero-showroom.png")}
-              alt="Neostar showroom"
-              className="w-full max-w-[552px] object-contain"
-            />
+            <div className="relative w-full max-w-[480px] md:max-w-none md:w-[440px] h-[420px] md:h-[470px]">
+              {/* Main chat preview card */}
+              <button
+                type="button"
+                onClick={() => open()}
+                className="absolute top-0 right-0 md:right-4 w-[88%] md:w-[360px] bg-white rounded-2xl p-5 flex flex-col gap-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.08)] text-left hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] transition-shadow z-10"
+                style={{ border: "0.5px solid rgba(0,0,0,0.08)" }}
+                aria-label="Otvori AI savjetnika"
+              >
+                {/* Header */}
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className="flex items-center justify-center rounded-full w-8 h-8 flex-none"
+                    style={{ backgroundColor: "#F7F7FC" }}
+                  >
+                    <img src={img("/images/icon-sparkle.svg")} alt="" className="w-5 h-5" />
+                  </div>
+                  <div className="flex flex-col leading-tight">
+                    <p className="font-bold text-[13px] text-[#0F1419]">AI prodajni savjetnik</p>
+                    <p className="text-[11px] text-[#5F6D7A]">Neostar</p>
+                  </div>
+                </div>
+                {/* Messages */}
+                <div className="flex flex-col gap-2">
+                  <div className="self-start max-w-[90%]">
+                    <p
+                      className="text-[13px] text-black px-3 py-2.5 leading-snug"
+                      style={{ backgroundColor: "#F7F7FC", borderRadius: "4px 12px 12px 12px" }}
+                    >
+                      Bok! 👋 Reci mi kakav auto tražiš — pomoći ću ti pronaći pravi.
+                    </p>
+                  </div>
+                  <div className="self-end max-w-[90%]">
+                    <p
+                      className="text-[13px] px-3 py-2.5 leading-snug"
+                      style={{ backgroundColor: "rgba(127,229,255,0.25)", color: "#01A5CE", borderRadius: "12px 12px 4px 12px" }}
+                    >
+                      Trebam obiteljski auto za grad
+                    </p>
+                  </div>
+                  <div className="self-start max-w-[90%]">
+                    <p
+                      className="text-[13px] text-black px-3 py-2.5 leading-snug"
+                      style={{ backgroundColor: "#F7F7FC", borderRadius: "4px 12px 12px 12px" }}
+                    >
+                      Super! Imam par prijedloga — a poslije ti objasnim i opcije lizinga
+                    </p>
+                  </div>
+                </div>
+              </button>
+
+              {/* Floating quick reply chip top-left */}
+              <button
+                type="button"
+                onClick={() => open("Tražim auto - pomozi mi ga pronaći")}
+                className="hidden md:flex absolute top-[100px] left-0 items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-bold text-white hover:opacity-90 transition-opacity shadow-[0_4px_16px_rgba(0,0,0,0.08)] z-20"
+                style={{
+                  background: "linear-gradient(102deg, #00CCFF 6.85%, #80CEAA 95.45%)",
+                  border: "1px solid #7FE5FF",
+                }}
+              >
+                Tražim auto - pomozi mi ga pronaći
+              </button>
+
+              {/* Floating car card */}
+              <Link
+                href="/vozila/fiat-500"
+                className="absolute bottom-[60px] left-0 md:left-2 w-[280px] bg-white rounded-xl p-2.5 flex gap-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.15)] transition-shadow z-20"
+                style={{ border: "1px solid rgba(0,204,255,0.3)" }}
+              >
+                <div className="w-[70px] h-[60px] flex-none rounded-lg overflow-hidden relative">
+                  <div
+                    className="absolute inset-0 rounded-lg pointer-events-none"
+                    style={{ backgroundColor: "rgba(0,204,255,0.12)" }}
+                  />
+                  <img
+                    src={img("/images/car-fiat-500.jpg")}
+                    alt="FIAT 500"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-1 min-w-0 flex flex-col gap-0.5 justify-center">
+                  <p className="text-[12px] font-bold text-[#212529] leading-tight">FIAT 500 1.2</p>
+                  <p className="text-[10px] text-[#5F6D7A] leading-tight">
+                    2016. g. · 55.000 km
+                  </p>
+                  <div className="flex items-center justify-between pt-0.5">
+                    <span className="text-[12px] font-bold text-[#212529]">9.800 €</span>
+                    <span className="text-[9px] text-[#00CCFF] font-bold">od 105 €/mj</span>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Floating chip bottom-right */}
+              <button
+                type="button"
+                onClick={() => open("Kako funkcionira lizing?")}
+                className="hidden md:flex absolute bottom-0 right-4 items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-bold text-white hover:opacity-90 transition-opacity shadow-[0_4px_16px_rgba(0,0,0,0.08)] z-20"
+                style={{
+                  background: "linear-gradient(102deg, #00CCFF 6.85%, #80CEAA 95.45%)",
+                  border: "1px solid #7FE5FF",
+                }}
+              >
+                Kako funkcionira lizing?
+              </button>
+
+              {/* Decorative avatar circles */}
+              <div className="hidden md:flex absolute top-[200px] -left-2 w-[60px] h-[60px] rounded-full bg-white items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.1)] z-30">
+                <img src={img("/images/icon-sparkle.svg")} alt="" className="w-7 h-7" />
+              </div>
+            </div>
           </div>
         </div>
 
