@@ -58,8 +58,16 @@ export default function Hero() {
   };
 
   return (
-    <section className="bg-white pt-[72px]">
-      <div className="max-w-[1320px] mx-auto px-3">
+    <section
+      className="pt-[72px] relative overflow-hidden"
+      style={{
+        background:
+          "linear-gradient(120deg, #ffffff 0%, #E0F7FF 25%, #B8F0FF 50%, #ECFCFF 75%, #ffffff 100%)",
+        backgroundSize: "200% 200%",
+        animation: "hero-gradient 14s ease-in-out infinite",
+      }}
+    >
+      <div className="max-w-[1320px] mx-auto px-3 relative">
 
         {/* Top: heading left + AI savjetnik chat preview right */}
         <div className="grid md:grid-cols-2 items-center pt-8 pb-4 gap-6 md:gap-8">
@@ -100,8 +108,11 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={() => open()}
-                className="absolute top-0 right-0 md:right-4 w-[88%] md:w-[360px] bg-white rounded-2xl p-5 flex flex-col gap-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.08)] text-left hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] transition-shadow z-10"
-                style={{ border: "0.5px solid rgba(0,0,0,0.08)" }}
+                className="absolute top-0 right-0 md:right-4 w-[88%] md:w-[360px] bg-white rounded-2xl p-5 flex flex-col gap-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.08)] text-left hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] transition-shadow z-10 opacity-0"
+                style={{
+                  border: "0.5px solid rgba(0,0,0,0.08)",
+                  animation: "pop-in 0.6s ease-out 0s forwards",
+                }}
                 aria-label="Otvori AI savjetnika"
               >
                 {/* Header */}
@@ -117,9 +128,12 @@ export default function Hero() {
                     <p className="text-[11px] text-[#5F6D7A]">Neostar</p>
                   </div>
                 </div>
-                {/* Messages */}
+                {/* Messages — sequentially fade & slide in */}
                 <div className="flex flex-col gap-2">
-                  <div className="self-start max-w-[90%]">
+                  <div
+                    className="self-start max-w-[90%] opacity-0"
+                    style={{ animation: "fade-slide-up 0.5s ease-out 0.2s forwards" }}
+                  >
                     <p
                       className="text-[13px] text-black px-3 py-2.5 leading-snug"
                       style={{ backgroundColor: "#F7F7FC", borderRadius: "4px 12px 12px 12px" }}
@@ -127,7 +141,10 @@ export default function Hero() {
                       Bok! 👋 Reci mi kakav auto tražiš — pomoći ću ti pronaći pravi.
                     </p>
                   </div>
-                  <div className="self-end max-w-[90%]">
+                  <div
+                    className="self-end max-w-[90%] opacity-0"
+                    style={{ animation: "fade-slide-up 0.5s ease-out 1.0s forwards" }}
+                  >
                     <p
                       className="text-[13px] px-3 py-2.5 leading-snug"
                       style={{ backgroundColor: "rgba(127,229,255,0.25)", color: "#01A5CE", borderRadius: "12px 12px 4px 12px" }}
@@ -135,7 +152,10 @@ export default function Hero() {
                       Trebam obiteljski auto za grad
                     </p>
                   </div>
-                  <div className="self-start max-w-[90%]">
+                  <div
+                    className="self-start max-w-[90%] opacity-0"
+                    style={{ animation: "fade-slide-up 0.5s ease-out 1.8s forwards" }}
+                  >
                     <p
                       className="text-[13px] text-black px-3 py-2.5 leading-snug"
                       style={{ backgroundColor: "#F7F7FC", borderRadius: "4px 12px 12px 12px" }}
@@ -150,10 +170,12 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={() => open("Tražim auto - pomozi mi ga pronaći")}
-                className="hidden md:flex absolute top-[100px] left-0 items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-bold text-white hover:opacity-90 transition-opacity shadow-[0_4px_16px_rgba(0,0,0,0.08)] z-20"
+                className="hidden md:flex absolute top-[100px] left-0 items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-bold text-white hover:opacity-90 transition-opacity shadow-[0_4px_16px_rgba(0,0,0,0.08)] z-20 opacity-0"
                 style={{
                   background: "linear-gradient(102deg, #00CCFF 6.85%, #80CEAA 95.45%)",
                   border: "1px solid #7FE5FF",
+                  animation:
+                    "pop-in 0.6s ease-out 2.4s forwards, float-y 5s ease-in-out 3.0s infinite",
                 }}
               >
                 Tražim auto - pomozi mi ga pronaći
@@ -162,8 +184,12 @@ export default function Hero() {
               {/* Floating car card */}
               <Link
                 href="/vozila/fiat-500"
-                className="absolute bottom-[60px] left-0 md:left-2 w-[280px] bg-white rounded-xl p-2.5 flex gap-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.15)] transition-shadow z-20"
-                style={{ border: "1px solid rgba(0,204,255,0.3)" }}
+                className="absolute bottom-[60px] left-0 md:left-2 w-[280px] bg-white rounded-xl p-2.5 flex gap-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.15)] transition-shadow z-20 opacity-0"
+                style={{
+                  border: "1px solid rgba(0,204,255,0.3)",
+                  animation:
+                    "pop-in 0.6s ease-out 2.8s forwards, float-y 6s ease-in-out 3.5s infinite",
+                }}
               >
                 <div className="w-[70px] h-[60px] flex-none rounded-lg overflow-hidden relative">
                   <div
@@ -192,19 +218,52 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={() => open("Kako funkcionira lizing?")}
-                className="hidden md:flex absolute bottom-0 right-4 items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-bold text-white hover:opacity-90 transition-opacity shadow-[0_4px_16px_rgba(0,0,0,0.08)] z-20"
+                className="hidden md:flex absolute bottom-0 right-4 items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-bold text-white hover:opacity-90 transition-opacity shadow-[0_4px_16px_rgba(0,0,0,0.08)] z-20 opacity-0"
                 style={{
                   background: "linear-gradient(102deg, #00CCFF 6.85%, #80CEAA 95.45%)",
                   border: "1px solid #7FE5FF",
+                  animation:
+                    "pop-in 0.6s ease-out 3.2s forwards, float-y 5s ease-in-out 3.8s infinite",
                 }}
               >
                 Kako funkcionira lizing?
               </button>
 
-              {/* Decorative avatar circles */}
-              <div className="hidden md:flex absolute top-[200px] -left-2 w-[60px] h-[60px] rounded-full bg-white items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.1)] z-30">
-                <img src={img("/images/icon-sparkle.svg")} alt="" className="w-7 h-7" />
+              {/* Decorative sparkle avatar circle (gently pulses) */}
+              <div
+                className="hidden md:flex absolute top-[200px] -left-2 w-[60px] h-[60px] rounded-full bg-white items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.1)] z-30"
+                style={{ animation: "pulse-soft 3.5s ease-in-out infinite" }}
+              >
+                <img
+                  src={img("/images/icon-sparkle.svg")}
+                  alt=""
+                  className="w-7 h-7"
+                  style={{ animation: "rotate-slow 18s linear infinite" }}
+                />
               </div>
+
+              {/* Decorative coloured dots */}
+              <span
+                className="hidden md:block absolute top-[120px] left-[200px] w-3 h-3 rounded-full"
+                style={{
+                  backgroundColor: "#F29FC0",
+                  animation: "pulse-soft 4s ease-in-out 0.4s infinite",
+                }}
+              />
+              <span
+                className="hidden md:block absolute top-[260px] right-[-10px] w-3.5 h-3.5 rounded-full"
+                style={{
+                  backgroundColor: "#9997C1",
+                  animation: "pulse-soft 4.5s ease-in-out 1.2s infinite",
+                }}
+              />
+              <span
+                className="hidden md:block absolute bottom-[140px] right-[20px] w-2.5 h-2.5 rounded-full"
+                style={{
+                  backgroundColor: "#80CEAA",
+                  animation: "pulse-soft 4s ease-in-out 2.0s infinite",
+                }}
+              />
             </div>
           </div>
         </div>
